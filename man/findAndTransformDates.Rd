@@ -25,13 +25,15 @@ But you can also add your own formats.
 }
 \details{
 This function is looking for perfect transformation. 
-If there are some mistakes in dataSet, consider setting them to NA before.
+If there are some mistakes in dataSet, consider setting them to NA before. \cr
+In the unlikely case where you have numeric higher than \code{as.numeric(as.POSIXct("1990-01-01"))}
+they will be considered as timestamps and you might have some issues. On the other side, 
+if you have timestamps before 1990-01-01, they won't be found, but you can use 
+\code{\link{setColAsDate}} to force transformation.
 }
 \section{Warning}{
 
-All these changes will happen \strong{by reference}: please send a copy() of
-your data.table to prepareSet if you do not want your
-original dataSet to be modified.
+All these changes will happen \strong{by reference}.
 }
 
 \examples{

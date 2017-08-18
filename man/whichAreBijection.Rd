@@ -4,10 +4,12 @@
 \alias{whichAreBijection}
 \title{Identify bijections}
 \usage{
-whichAreBijection(dataSet, verbose = TRUE)
+whichAreBijection(dataSet, keep_cols = NULL, verbose = TRUE)
 }
 \arguments{
 \item{dataSet}{Matrix, data.frame or data.table}
+
+\item{keep_cols}{list of columns not to drop (list of character, default to NULL)}
 
 \item{verbose}{Should the algorithm talk (logical, default to TRUE)}
 }
@@ -21,7 +23,7 @@ Find all the columns that are bijections of another column
 Bijection, meaning that there is another column containing the exact same information (but maybe
  coded differently) for example col1: Men/Women, col2 M/W. \cr
 This function is performing search by looking to every couple of columns. 
-It computes numbers of unique elements in each columns, and number of unique tuples of values. \cr
+It computes numbers of unique elements in each column, and number of unique tuples of values. \cr
 Computation is made by exponential search, so that the function is faster. \cr
 If \code{verbose} is TRUE, the column logged will be the one returned. \cr
 Ex: if column i and column j (with j > i) are bijections it will return j, expect if j is a 
@@ -35,7 +37,8 @@ data("adult")
 whichAreInDouble(adult)
 # It doesn't give any result.
 
-# Lets look of bijections
+# Let's look of bijections
 whichAreBijection(adult)
-# Return education_num and education which contain the same info
+# Return education_num index because education_num and education which
+# contain the same info
 }

@@ -1,17 +1,19 @@
 requireNamespace("data.table")
+verbose <- TRUE
+
 ## whichAreConstant
-#----------------
+#------------------
 dataSet <- data.table(constantCol = rep("a", 100), nonConstantCol = rnorm(100))
 
 test_that("whichAreConstant:", 
           {
-            expect_equal(whichAreConstant(dataSet, verbose = FALSE), 1)
+            expect_equal(whichAreConstant(dataSet, verbose = verbose), 1)
           })
 
 
 		  
 ## whichAreInDouble
-#--------------------------
+#------------------
 # Simple matrix
 M <- matrix(1, nrow = 1e6, ncol = 3)
 
@@ -25,22 +27,33 @@ M2[1, 1] <- NA
 
 test_that("whichAreInDouble give correct RESULTS", 
           {
-            expect_equal(all(whichAreInDouble(M, verbose = FALSE) == c(2, 3)), TRUE)
-            expect_equal(all(whichAreInDouble(M1, verbose = FALSE) == c(3)), TRUE)
-            expect_equal(all(whichAreInDouble(M2, verbose = FALSE) == c(2)), TRUE)
+            expect_equal(all(whichAreInDouble(M, verbose = verbose) == c(2, 3)), TRUE)
+            expect_equal(all(whichAreInDouble(M1, verbose = verbose) == c(3)), TRUE)
+            expect_equal(all(whichAreInDouble(M2, verbose = verbose) == c(2)), TRUE)
+          })
+		  
+data("messy_adult")
+test_that("whichAreInDouble: exceptions", 
+          {
+            expect_equal(is.null(whichAreInDouble(messy_adult[,.(date1)], verbose = verbose)), TRUE)
           })
 
 
 ## whichAreBijection
 # ------------------
-data("adult")
+data("messy_adult")
 
 
-test_that("wwhichAreBijection", 
+test_that("whichAreBijection", 
           {
-            expect_equal(all(whichAreBijection(adult, verbose = FALSE) == c(5)), TRUE)
+            expect_equal(all(whichAreBijection(messy_adult, verbose = verbose) == c(3, 5, 14)), TRUE)
           })
 
+data("messy_adult")
+test_that("whichAreInDouble: exceptions", 
+          {
+            expect_null(whichAreBijection(messy_adult[,.(date1)], verbose = verbose))
+          })
 
 ## whichAreIncluded
 # ------------------
@@ -54,7 +67,7 @@ messy_adult = messy_adult[1:5000, ]
 
 test_that("whichAreIncluded: standard test", 
           {
-            expect_equal(all(whichAreIncluded(messy_adult, verbose = FALSE) == c(7, 4, 9, 14)), TRUE)
+            expect_equal(all(whichAreIncluded(messy_adult, verbose = verbose) == c(4, 7, 9, 14)), TRUE)
           })
 
 
@@ -64,16 +77,32 @@ messy_adult$are50OrMore <- messy_adult$age > 50
 
 test_that("whichAreIncluded: build column", 
           {
-            expect_equal(all(whichAreIncluded(messy_adult, verbose = FALSE) == c(7, 4, 9, 25, 14)), TRUE)
+            expect_equal(all(whichAreIncluded(messy_adult, verbose = verbose) == c(4, 7, 9, 14, 25)), TRUE)
           })
 # As one can, see this column that doesn't have additional info than age is spotted.
 
 # But you should be carefull, if there is a column id, every column will be dropped:
-messy_adult$id = 1:nrow(messy_adult) # build id
+messy_adult$id <- 1:nrow(messy_adult) # build id
 setcolorder(messy_adult, c("id", setdiff(names(messy_adult), "id"))) # Set id as first column
 
 
-test_that("whichAreIncluded: id", 
+test_that("whichAreIncluded: id at the beginning", 
           {
-            expect_equal(all(whichAreIncluded(messy_adult, verbose = FALSE) == 2:26), TRUE)
+            expect_equal(all(whichAreIncluded(messy_adult, verbose = verbose) == 2:26), TRUE)
+          })
+
+	
+# Same but with inverse order
+rm(messy_adult)
+data(messy_adult)
+messy_adult$id <- 1:nrow(messy_adult) # build id
+test_that("whichAreIncluded: id at the end", 
+          {
+            expect_equal(all(whichAreIncluded(messy_adult, verbose = verbose) == 1:24), TRUE)
+          })
+
+	
+test_that("whichAreIncluded: return NULL when no column", 
+          {
+            expect_equal(is.null(whichAreIncluded(data.table(col1 = c(1, 2, 3)), verbose = TRUE)), TRUE)
           })

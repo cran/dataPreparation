@@ -5,11 +5,15 @@
 #'
 #' Delete columns that are constant or in double in your dataSet set.
 #' @param dataSet Matrix, data.frame or data.table
-#' @param verbose Should the algorithm talk (logical, default to TRUE)
+#' @param keep_cols list of columns not to drop (list of character, default to NULL)
+#' @param verbose Should the algorithm talk (logical or 1 or 2, default to TRUE)
 #' @param ... optional parameters to be passed to the function when called from another function
+#' @details 
+#' \code{verbose} can be set to 2 have full details from which functions, otherwise they 
+#' don't log. (\code{verbose = 1} is equivalent to \code{verbose = TRUE})
 #' @return 
 #' The same dataSet set but with fewer columns. Columns that are constant, in double, 
-#' or bijection of anotger have been deleted.
+#' or bijection of another have been deleted.
 #' @examples
 #' # First let's build a data.frame with 3 columns: a constant column, and a column in double
 #' df <- data.frame(col1 = 1, col2 = rnorm(1e6), col3 = sample(c(1, 2), 1e6, replace = TRUE))
@@ -23,69 +27,63 @@
 #' head(df)
 #' @import data.table
 #' @export
-fastFilterVariables <- function(dataSet, verbose = TRUE, ...){
+fastFilterVariables <- function(dataSet, keep_cols = NULL, verbose = TRUE, ...){
   ## Working environement
+  function_name <- "fastFilterVariables"
   
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet = dataSet, name = "DEBUG: see fastFilterVariables")
-  
+  is.verbose_levels(verbose, max_level = 2, function_name = function_name)
+  keep_cols <- real_cols(keep_cols, names(dataSet), function_name = function_name)
   ## Initalization
   # Arguments for log
-  myArgs <- list(...)
-  if (length(myArgs)>0){
-    if (!is.null(myArgs[["function_name"]])){
-      function_name <- myArgs[["function_name"]]
+  args <- list(...)
+  dataName <- "dataSet"
+  if (length(args) > 0){
+    if (!is.null(args[["function_name"]])){
+      function_name <- args[["function_name"]]
     }
-    else{
-      function_name <- "fastFilterVariables"
-    }
-    if (!is.null(myArgs[["dataName"]])){
-      dataName <- myArgs[["dataName"]]
-    }
-    else{
-      dataName <- "dataSet"
+    if (!is.null(args[["dataName"]])){
+      dataName <- args[["dataName"]]
     }
   }
-  else{
-    function_name <- "fastFilterVariables"
-    dataName <- "dataSet"
-  }
+  
   
   ## Computation
   # Delete constant columns
   if (verbose){
-    printl(function_name, ": I check for constant columns")
+    printl(function_name, ": I check for constant columns.")
   }
-  listOfConstantCols <- whichAreConstant(dataSet, verbose = verbose)
+  listOfConstantCols <- whichAreConstant(dataSet, keep_cols = keep_cols, verbose = verbose >= 2)
   if (length(listOfConstantCols) > 0){
     if (verbose){
-      printl(function_name, ": I delete ", length(listOfConstantCols), " constant column(s) in ", dataName)
+      printl(function_name, ": I delete ", length(listOfConstantCols), " constant column(s) in ", dataName, ".")
     }
-	dataSet[, (listOfConstantCols) := NULL]
+    dataSet[, (listOfConstantCols) := NULL]
   }
   # Delete columns in double
   if (verbose){
-    printl(function_name, ": I check for columns in double")
+    printl(function_name, ": I check for columns in double.")
   }
-  listOfDoubles <- whichAreInDouble(dataSet, verbose = verbose)
+  listOfDoubles <- whichAreInDouble(dataSet, keep_cols = keep_cols, verbose = verbose >= 2)
   if (length(listOfDoubles) > 0){
     if (verbose){
-      printl(function_name, ": I delete ", length(listOfDoubles), " column(s) that are in double in ", dataName)
+      printl(function_name, ": I delete ", length(listOfDoubles), " column(s) that are in double in ", dataName, ".")
     }  
-	dataSet[, (listOfDoubles) := NULL]
+    dataSet[, (listOfDoubles) := NULL]
   }
   
   # Delete columns that are bijections
   if (verbose){
-    printl(function_name, ": I check for columns that are bijections of another column")
+    printl(function_name, ": I check for columns that are bijections of another column.")
   }
-  listOfBijections <- whichAreBijection(dataSet, verbose = verbose)
+  listOfBijections <- whichAreBijection(dataSet, keep_cols = keep_cols, verbose = verbose >= 2)
   if (length(listOfBijections) > 0){
     if (verbose){
       printl(function_name, ": I delete ", length(listOfBijections), 
-             " column(s) that are bijections of another column in ", dataName)
+             " column(s) that are bijections of another column in ", dataName, ".")
     }  
-	dataSet[, (listOfBijections) := NULL]
+    dataSet[, (listOfBijections) := NULL]
   }
   ## Wrapp up
   return(dataSet)
@@ -98,14 +96,14 @@ fastFilterVariables <- function(dataSet, verbose = TRUE, ...){
 #' Fast round
 #' 
 #' Fast round of numeric in a data.table. Will only round numeric, so don't worry about characters. 
-#' Also, it compute it column by column so your RAM is safe too.
+#' Also, it computes it column by column so your RAM is safe too.
 #' @param dataSet matrix, data.frame or data.table
 #' @param digits The number of digits after comma (numeric, default to 2)
 #' @param verbose Should the algorithm talk? (logical, default to TRUE)
 #' @details
 #' It is performing round by reference on dataSet, column by column, only on numercial columns. 
-#' So that it avoid to copy dataSet in RAM.
-#' @return The same datasets but as a data.table and with numerics rounded
+#' So that it avoid copying dataSet in RAM.
+#' @return The same datasets but as a data.table and with numeric rounded.
 #' @examples
 #' # First let's build a very large data.table with random numbers
 #' require(data.table)
@@ -122,11 +120,12 @@ fastFilterVariables <- function(dataSet, verbose = TRUE, ...){
 #' @export
 fastRound <- function(dataSet, digits = 2, verbose = TRUE){
   ## Working environement
-  function_name = "fastRound"
+  function_name <- "fastRound"
   
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
-  if (!is.numeric(digits)){stop(paste0(function_name, ": digits should be an integer"))}
+  if (!is.numeric(digits)){stop(paste0(function_name, ": digits should be an integer."))}
+  is.verbose(verbose)
   
   ## Initialization
   digits <- round(digits, 0) # just to be safe
@@ -136,7 +135,7 @@ fastRound <- function(dataSet, digits = 2, verbose = TRUE){
     pb <- initPB(function_name, names(dataSet))
   }
   for (col in names(dataSet)){
-    if (any(class(dataSet[[col]]) %in% c("numeric", "integer"))){
+    if (is.numeric(dataSet[[col]])){
       set(dataSet, NULL, col, round(dataSet[[col]], digits))
     } 
     if (verbose){
@@ -165,8 +164,8 @@ fastRound <- function(dataSet, digits = 2, verbose = TRUE){
 #' @param set_char NAs replacement for character column, (character or function, default to "")
 #' @param verbose Should the algorithm talk (logical, default to TRUE)
 #' @details 
-#' To preserve RAM this function edit directly the dataSet set. To keep object unchanged, please use \code{\link{copy}} \cr
-#' If you provide a function, it will be applyed to the full column. So this function should handle NAs. \cr
+#' To preserve RAM this function edits directly the dataSet set. To keep object unchanged, please use \code{\link{copy}} \cr
+#' If you provide a function, it will be applied to the full column. So this function should handle NAs. \cr
 #' For factor columns, it will add NA to list of values.
 #' @return dataSet as a \code{\link{data.table}} with NAs handled
 #' @examples
@@ -195,16 +194,17 @@ fastRound <- function(dataSet, digits = 2, verbose = TRUE){
 fastHandleNa <- function(dataSet, set_num = 0, set_logical = FALSE, 
                          set_char = "", verbose = TRUE){
   ## Working environement
-  function_name = "fastHandleNa"
+  function_name <- "fastHandleNa"
   
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
+  is.verbose(verbose)
   
   ## Initialization
   # Transform into function
-  num_fun <- function.maker(set_num, function_name, "set_num", "numeric")
-  logical_fun <- function.maker(set_logical, function_name, "set_logical", "logical")
-  char_fun <- function.maker(set_char, function_name, "set_char", "character")
+  num_fun <- function.maker(set_num, "numeric", function_name, "set_num")
+  logical_fun <- function.maker(set_logical, "logical", function_name, "set_logical")
+  char_fun <- function.maker(set_char, "character", function_name, "set_char")
   
   if (verbose){
     pb <- initPB(function_name, names(dataSet))
@@ -212,16 +212,16 @@ fastHandleNa <- function(dataSet, set_num = 0, set_logical = FALSE,
   
   ## Computation
   for (col in names(dataSet)){ 
-    if (any(class(dataSet[[col]]) %in% c("numeric", "integer"))){
+    if (is.numeric(dataSet[[col]])){
       set(dataSet, which(is.na(dataSet[[col]])), col, num_fun(dataSet[[col]]))
     }
-    if (any(class(dataSet[[col]]) %in% c("logical"))){
+    if (is.logical(dataSet[[col]])){
       set(dataSet, which(is.na(dataSet[[col]])), col, logical_fun(dataSet[[col]]))
     }
-    if (any(class(dataSet[[col]]) %in% c("character"))){
+    if (is.character(dataSet[[col]])){
       set(dataSet, which(is.na(dataSet[[col]])), col, char_fun(dataSet[[col]]))
     }
-    if (any(class(dataSet[[col]]) %in% c("factor"))){
+    if (is.factor(dataSet[[col]])){
       if (sum(is.na(dataSet[[col]])) > 0 ){
         set(dataSet, NULL, col, addNA(dataSet[[col]]))
         # Set level to string NA, otherwise it cause mistake, especialy for randomForests
@@ -250,7 +250,7 @@ fastHandleNa <- function(dataSet, set_num = 0, set_logical = FALSE,
 #' @details 
 #' This function is fast for very large vectors, data.frame and data.table. 
 #' This function is also very robust; you can compare a lot of stuff without failing.
-#' @return logical (TRUE or FALSE) if the two objects are equals.
+#' @return Logical (TRUE or FALSE) if the two objects are equals.
 #' @examples
 #' # Test on a character
 #' fastIsEqual("a", "a")
@@ -285,7 +285,7 @@ fastIsEqual <- function(object1, object2){
     return(result)
   }
   # Simple comparaison for factors
-  if (any(class(object1) == "factor")){
+  if (is.factor(object1)){
     if (!(sum(levels(object1) %in% levels(object2)) == length(levels(object1)) & sum(levels(object2) %in% levels(object1)) == length(levels(object2)))){
       return(FALSE) # To-do Limitation: les levels vides
     }
@@ -325,22 +325,27 @@ fastIsEqual <- function(object1, object2){
 #######################################################################################
 ############################### Fast is bijection function ############################
 #######################################################################################
-fastIsBijection <- function(dataSet){
+#' @import data.table
+fastIsBijection <- function(object1, object2){
+  ## Working environement
+  function_name <- "fastIsBijection"
+  
   ## Sanity check
-  if (ncol(dataSet) != 2){
-    stop("fastIsBijection: dataSet should be a data.table or a data.frame with 2 columns")
-  }
+
+  ## Initialization
+  dataSet <- data.table(object1 = object1, object2 = object2)
+  
   # Comparaison for long object
   nrows <- nrow(dataSet)
   maxPower <- floor(log(nrows)/log(10)) + 1
   for (i in 1:maxPower){
-    I <- (10^(i - 1)):min(10^i - 1,  nrows)
+    I <- (10 ^ (i - 1)):min(10 ^ i - 1,  nrows)
     n1 <- uniqueN(dataSet[I, 1])
     n2 <- uniqueN(dataSet[I, 2])
     if (n1 != n2){
       return(FALSE)
     }
-    temp_data <- dataSet[I,]
+    temp_data <- dataSet[I, ]
     temp_data <- temp_data[!duplicated(temp_data), ]
     
     if (nrow(temp_data) != n1){
@@ -367,11 +372,10 @@ fastMaxNbElt <- function(object, max_n_values = 1){
   listOfUnique <- NULL
   maxPower <- floor(log(length(object)) / log(10)) + 1
   i <- 1
-  isConstant <- TRUE
   
   ## Computation
   for (i in 1:maxPower){
-    I=(10^(i - 1)):min(10^i - 1, length(object))
+    I <- (10 ^ (i - 1)):min(10 ^ i - 1, length(object))
     listOfUnique <- unique( c( listOfUnique, unique( object[I])))
     if (length(listOfUnique) > max_n_values){
       return(FALSE)
@@ -383,9 +387,5 @@ fastMaxNbElt <- function(object, max_n_values = 1){
   # if every test passed, return TRUE
   return(TRUE)
 }
-
-
-
-
 
 

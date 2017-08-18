@@ -4,10 +4,12 @@
 \alias{whichAreInDouble}
 \title{Identify double columns}
 \usage{
-whichAreInDouble(dataSet, verbose = TRUE)
+whichAreInDouble(dataSet, keep_cols = NULL, verbose = TRUE)
 }
 \arguments{
 \item{dataSet}{Matrix, data.frame or data.table}
+
+\item{keep_cols}{list of columns not to drop (list of character, default to NULL)}
 
 \item{verbose}{Should the algorithm talk (logical, default to TRUE)}
 }
@@ -33,7 +35,7 @@ M <- matrix(1, nrow = 1e6, ncol = 3)
 whichAreInDouble(M)
 # It return 2 and 3: you should only keep column 1.
 
-# Lets change the column 2, line 1 to 0. And check again
+# Let's change the column 2, line 1 to 0. And check again
 M[1, 2] <- 0
 whichAreInDouble(M)
 # It only returns 3
