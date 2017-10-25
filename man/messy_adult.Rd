@@ -3,13 +3,13 @@
 \docType{data}
 \name{messy_adult}
 \alias{messy_adult}
-\title{adult with some ugly columns added}
-\format{A data.table with 32561 rows and 24 variables}
+\title{Adult with some ugly columns added}
+\format{A data.table with 32561 rows and 24 variables.}
 \usage{
-data(messy_adult)
+data("messy_adult")
 }
 \description{
-For examples and tutorials, messy_adult has been built using UCI \code{adult}.\cr
+For examples and tutorials, messy_adult has been built using UCI \code{adult}.
 }
 \details{
 We added 9 really ugly columns to the data set:

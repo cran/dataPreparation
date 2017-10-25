@@ -45,16 +45,17 @@ unFactor <- function(dataSet, n_unfactor = 53, verbose = TRUE){
   checkAndReturnDataTable(dataSet = dataSet)
   
   ## Initialization
+  cols <- real_cols(dataSet, cols = "auto", function_name = function_name, types = "factor")
   if (verbose){ 
-    pb <- initPB(function_name, names(dataSet))
+    pb <- initPB(function_name, cols)
     printl(function_name, ": I will identify variable that are factor but shouldn't be.")
   }
   count <- 0
   start_time <- proc.time()
   
   ## Computation
-  for (col in names(dataSet)){
-    if (is.factor(dataSet[[col]]) & length(levels(dataSet[[col]])) > n_unfactor){
+  for (col in cols){
+    if (length(levels(dataSet[[col]])) > n_unfactor){
       if (verbose){
         printl(function_name, ": I unfactor ", col, ".")
       }
@@ -67,8 +68,8 @@ unFactor <- function(dataSet, n_unfactor = 53, verbose = TRUE){
     }
   }
   if (verbose){ 
-    close(pb); rm(pb); gc(verbose = FALSE)
-    printl(function_name, ": It took me ", round((proc.time() - start_time)[[3]], 2),
+	gc(verbose = FALSE)
+    printl(function_name, ": It took me ", round( (proc.time() - start_time)[[3]], 2),
            "s to unfactor ", count, " column(s).")
   }
   

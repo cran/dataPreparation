@@ -25,13 +25,11 @@ findNFirstNonNull <- function(dataSet, N){
       result <- c(result, data_sample[1:min(N - length(result), length(data_sample))])
     }
     
-    
     ## If we found enough elements, we stop
     if (length(result) == N){
       return(result)
     }
   }
-  
   ## Wrapp-up
   return(result)
 }
@@ -45,16 +43,16 @@ findNFirstNonNull <- function(dataSet, N){
 #' @import data.table
 checkAndReturnDataTable <- function(dataSet, name = "dataSet"){
   if (!any( class(dataSet) %in% c("data.table", "data.frame", "matrix"))){
-    stop(paste(name, "should be a data.table, a data.frame or a matrix"))
+    stop(paste(name, "should be a data.table, a data.frame or a matrix."))
   }
   if (nrow(dataSet) < 1){
-    stop(paste(name, "should have at least have 1 line"))
+    stop(paste(name, "should have at least have 1 line."))
   }
   if (ncol(dataSet) < 1){
-    stop(paste(name, "should have at least have 1 column"))
+    stop(paste(name, "should have at least have 1 column."))
   }
   
-  if (! "data.table" %in% class(dataSet)){
+  if (! is.data.table(dataSet)){
     if (class(dataSet) == "data.frame"){
       setDT(dataSet)
     }
@@ -112,15 +110,58 @@ is.col <- function(dataSet, cols = NULL, ...){
 }
 
 # Reduce list of cols to only cols in dataSet set
-real_cols <- function(cols, data_names, function_name){
-  listOfIsError <- ! cols %in% data_names
+# Reduce columns that aren't of the wanted type
+# Handle "auto" value
+# @param dataSet Matrix, data.frame or data.table (with only numeric, integer, factor, logical, character columns).
+# @param cols list of column(s) name(s) of dataSet to control. (Default to auto, all cols that match types)
+# @param function_name name of the function where it's called from. For LOG. (Character, default to "real_cols")
+# @param types types of wanted columns.
+real_cols <- function(dataSet, cols, function_name = "real_cols", types = NULL){
+  ## If NULL cols
+  if (is.null(cols) || length(cols) == 0){ # length cols is for the case where cols == character(0)
+	return(NULL)
+  }
+  
+  ## If auto cols
+  if (all(cols == "auto")){
+    cols <- colnames(dataSet)
+    was_auto <- TRUE
+  }
+  else{
+    was_auto <- FALSE
+  }
+  
+  # Filter cols that doesn't exist
+  listOfIsError <- ! cols %in% colnames(dataSet)
   if (sum(listOfIsError) > 0){
-    printl(function_name, ":", cols[listOfIsError], 
-           "aren\'t columns of the table, i do nothing for those variables")
+    printl(function_name, ": ", print(cols[listOfIsError], collapse = ", "), 
+           " aren\'t columns of the table, i do nothing for those variables")
     cols <- cols[!listOfIsError] # Reduce list of col
   }
   rm(listOfIsError)
   
+  # Filter cols that aren't of the right type
+  if (! is.null(types)){
+    if (all(types == "date")){
+      listOfIsError <- ! cols %in% colnames(dataSet)[sapply(dataSet, is.date)]
+    }
+    else if(all(types == "numeric")){
+      listOfIsError <- ! cols %in% colnames(dataSet)[sapply(dataSet, is.numeric)]
+    }
+    else{
+      listOfIsError <- ! cols %in% colnames(dataSet)[sapply(dataSet, class) %in% types]  
+    }
+    if (sum(listOfIsError) > 0){
+      if (! was_auto){
+        printl(function_name, ": ", print(cols[listOfIsError], collapse = ", "), 
+               " aren\'t columns of types ", paste(types, collapse = " or ")," i do nothing for those variables.")  
+      }
+      cols <- cols[!listOfIsError] # Reduce list of col
+    }
+    rm(listOfIsError)
+  }
+  
+  ## Wrapp-up
   return(cols)
 }
 
@@ -131,8 +172,7 @@ real_cols <- function(cols, data_names, function_name){
 ## Separators are used in multiple functions, so i put them here!
 getPossibleSeparators <- function(){
   listOfPossibleSeparator <- c(",", "/", "-", "_", ":")
-  
-  return(paste(listOfPossibleSeparator, collapse = "|"))
+  return(listOfPossibleSeparator)
 }
 
 
@@ -142,23 +182,25 @@ getPossibleSeparators <- function(){
 # To stop using print(paste())
 printl <- function(...){
   args <- list(...)
-  
-  toPrint <- paste(args, collapse = "")
-  print(toPrint)
+  print(paste(args, collapse = ""))
 }
 
 ## Super progress bar
-# Using tkProgressBar and storing some info
+# Using progress and storing some info
 # Use when you build a progress bar for colnames
-#' @importFrom tcltk tkProgressBar setTkProgressBar
+#' @importFrom progress progress_bar
 initPB <- function(function_name, cols_names){
-  pb <- tkProgressBar(title = paste0(function_name, ": 0% done"), min = 1, max = length(cols_names)) # Construction d'une progress bar
-  pb$function_name <- function_name
-  pb$cols_names <- cols_names
+  if (length(cols_names) == 0){
+    # No prossessing to do, so no progress bar
+    return(NULL)
+  }
+  pb <- progress_bar$new(
+    format = paste0("   ", function_name, " [:bar] :percent in :elapsed \r"),
+    total = length(cols_names), clear = FALSE, width= 60)
   return(pb)
 }
 setPB <- function(pb, col){
-  setTkProgressBar(pb, which(pb$cols_names == col), title=paste(pb$function_name, ": ", round(which(pb$cols_names == col) / length(pb$cols_names) * 100, 0), "% done")) 
+  pb$tick()
 }
 
 ###################################################################################################
@@ -248,12 +290,13 @@ function.maker <- function(object, type, function_name = "function.maker",  obje
   if (any(class(object) %in% c("numeric", "integer", "factor", "logical", "date", "character"))){
     built_function <- function(...){return(object)}
   }
+  # If it is a function
   if (is.function(object)){
     built_function <- object
   }
-  
-  
+  # Control of function
   if (!is.null(built_function)){
+    # On numeric functions
     if (type == "numeric"){
       if (length(built_function(1:3)) == 1){
         if (!is.numeric(built_function(1:3))){ 
@@ -265,7 +308,7 @@ function.maker <- function(object, type, function_name = "function.maker",  obje
         return(built_function)  
       }
     }
-    
+    # On logical functions
     if (type == "logical"){
       if (length(built_function(c(TRUE, FALSE))) == 1){
         if (!is.logical(built_function(c(TRUE, FALSE)))){ 
@@ -277,6 +320,7 @@ function.maker <- function(object, type, function_name = "function.maker",  obje
         return(built_function)  
       }
     }
+	# On character functions
     if (type == "character"){
       if (length(built_function(c("a", "b"))) == 1){
         if (!is.character(built_function(c("a", "b")))){ 
@@ -288,11 +332,9 @@ function.maker <- function(object, type, function_name = "function.maker",  obje
         return(built_function)  
       }
     }
-    stop(paste0(object_name, ": is in a shape that isn't handled, please provide constant or aggregation function."))
   }
-  else{
-    stop(paste0(object_name, ": is in a shape that isn't handled, please provide constant or aggregation function."))
-  }
+  # Wrapp-up, if we reached here, we can't handle what was provided
+  stop(paste0(object_name, ": is in a shape that isn't handled, please provide constant or aggregation function."))
 }
 
 
@@ -310,8 +352,9 @@ make_new_col_name <- function(new_col, col_names){
   }  
   
   ## Initialization
+  new_col <- gsub("[[:punct:]]", ".", new_col) # replace special characters
   if (! new_col %in% col_names){
-	return(new_col)
+    return(new_col)
   }
   i <- 1
   while (paste0(new_col, i) %in% col_names){
@@ -325,7 +368,7 @@ make_new_col_name <- function(new_col, col_names){
 ############################# build name separator ##############################################################
 #################################################################################################################
 build_name_separator <- function(args){
-  name_separator = "."
+  name_separator <- "."
   if (! is.null(args[["name_separator"]])){
     if (is.character(args[["name_separator"]]) & length(args[["name_separator"]]) == 1){
       name_separator <- args[["name_separator"]]
@@ -342,7 +385,7 @@ build_name_separator <- function(args){
 ############################# build factor_date_type ############################################################
 #################################################################################################################
 build_factor_date_type <- function(args){
-  factor_date_type = "yearmonth"
+  factor_date_type <- "yearmonth"
   if (! is.null(args[["factor_date_type"]])){
     if (is.character(args[["factor_date_type"]]) & length(args[["factor_date_type"]]) == 1){
       name_separator <- args[["factor_date_type"]]

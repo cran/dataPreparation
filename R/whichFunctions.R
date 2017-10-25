@@ -5,14 +5,14 @@
 #' 
 #' Find all the columns that are constant. 
 #' @param dataSet Matrix, data.frame or data.table
-#' @param keep_cols list of columns not to drop (list of character, default to NULL)
+#' @param keep_cols List of columns not to drop (list of character, default to NULL)
 #' @param verbose Should the algorithm talk (logical, default to TRUE)
 #' @return List of column's indexes that are constant in the dataSet set.
 #' @details
 #' Algorithm is performing exponential search: it check constancy on row 1 to 10, 
 #' if it's not constant it stops, if it's constant then on 11 to 100 ... \cr
 #' If you have a lot of columns than aren't constant, this function is way faster than a simple 
-#' length(unique())! The larger the dataSet set is, the more interesting it is to use this function.
+#' \code{length(unique())}! The larger the dataSet set is, the more interesting it is to use this function.
 #' @examples
 #' # Let's load our dataSet
 #' data("messy_adult") 
@@ -29,10 +29,10 @@ whichAreConstant <- function(dataSet, keep_cols = NULL, verbose = TRUE){
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
   is.verbose(verbose)
-  keep_cols <- real_cols(keep_cols, names(dataSet), function_name)
+  keep_cols <- real_cols(dataSet, keep_cols, function_name)
   
   ## Initialization
-  listOfConstantCols <- NULL
+  constant_cols <- NULL
   if (verbose){
 	start_time <- proc.time()
     pb <- initPB(function_name, names(dataSet))
@@ -43,7 +43,7 @@ whichAreConstant <- function(dataSet, keep_cols = NULL, verbose = TRUE){
   if (nrow(dataSet) > 1 ){ # We check for constant only if there are at least two lines
     for (col in cols){
       if (fastMaxNbElt(dataSet[[col]], 1)){
-        listOfConstantCols <- c(listOfConstantCols, col)
+        constant_cols <- c(constant_cols, col)
         if(verbose){
           printl(function_name, ": ", col, " is constant.")
         }
@@ -53,18 +53,16 @@ whichAreConstant <- function(dataSet, keep_cols = NULL, verbose = TRUE){
       }
     }
   }
-  if (verbose){
-    close(pb); rm(pb); gc()
-  }
+  gc(verbose = FALSE)
   
   ## Wrapp-up
-  listOfConstantCols <- which(names(dataSet) %in% listOfConstantCols) # To return indexes
+  constant_cols <- which(names(dataSet) %in% constant_cols) # To return indexes
   if (verbose){
     printl(function_name, ": it took me ", round((proc.time() - start_time)[[3]], 2), 
-           "s to identify ", length(listOfConstantCols), " constant column(s)")
+           "s to identify ", length(constant_cols), " constant column(s)")
   }
   
-  return(listOfConstantCols)
+  return(constant_cols)
 }
 
 
@@ -76,7 +74,7 @@ whichAreConstant <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 #' 
 #' Find all the columns that are in double. 
 #' @param dataSet Matrix, data.frame or data.table
-#' @param keep_cols list of columns not to drop (list of character, default to NULL)
+#' @param keep_cols List of columns not to drop (list of character, default to NULL)
 #' @param verbose Should the algorithm talk (logical, default to TRUE)
 #' @return 
 #' A list of index of columns that have an exact duplicate in the dataSet set. 
@@ -86,7 +84,7 @@ whichAreConstant <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 #' first 10 lines of both columns. If they are not equal then the columns aren't identical, else
 #' it compares lines 11 to 100; then 101 to 1000... So this function is fast with dataSet set 
 #' with a large number of lines and a lot of columns that aren't equals. \cr
-#' If \code{verbose} is TRUE, the column logged will be the one returned. \cr
+#' If \code{verbose} is TRUE, the column logged will be the one returned. 
 #' @examples
 #' # First let's build a matrix with 3 columns and a lot of lines, with 1's everywhere
 #' M <- matrix(1, nrow = 1e6, ncol = 3)
@@ -117,16 +115,16 @@ whichAreInDouble <- function(dataSet, keep_cols = NULL, verbose = TRUE){
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
   is.verbose(verbose)
-  keep_cols <- real_cols(keep_cols, names(dataSet), function_name)
+  keep_cols <- real_cols(dataSet, keep_cols, function_name)
   
   ## Initialization
   
   ## Computation
-  listOfDoubles <- bi_col_test(dataSet, keep_cols = keep_cols, verbose = verbose,
+  double_cols <- bi_col_test(dataSet, keep_cols = keep_cols, verbose = verbose,
                                test_function = "fastIsEqual", function_name = function_name, test_log = " is exactly equal to ")
   
   ## Wrapp-up
-  return(listOfDoubles)
+  return(double_cols)
 }
 
 
@@ -136,9 +134,9 @@ whichAreInDouble <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 #######################################################################################
 #' Identify bijections
 #' 
-#' Find all the columns that are bijections of another column
+#' Find all the columns that are bijections of another column.
 #' @param dataSet Matrix, data.frame or data.table
-#' @param keep_cols list of columns not to drop (list of character, default to NULL)
+#' @param keep_cols List of columns not to drop (list of character, default to NULL)
 #' @param verbose Should the algorithm talk (logical, default to TRUE)
 #' @return A list of index of columns that have an exact bijection in the dataSet set. 
 #' @details 
@@ -170,16 +168,16 @@ whichAreBijection <- function(dataSet, keep_cols = NULL, verbose = TRUE){
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
   is.verbose(verbose)
-  keep_cols <- real_cols(keep_cols, names(dataSet), function_name)
+  keep_cols <- real_cols(dataSet, keep_cols, function_name)
   
   ## Initialization
 
-  ## Computation # to-do dé-gorifier
-  listOfBijection <- bi_col_test(dataSet, keep_cols, verbose = verbose, 
+  ## Computation # to-do clean it
+  bijection_cols <- bi_col_test(dataSet, keep_cols, verbose = verbose, 
                                  test_function = "fastIsBijection", function_name = function_name, test_log = " is a bijection of ")
   
   ## Wrapp up
-  return(listOfBijection)
+  return(bijection_cols)
 }
 
 
@@ -194,7 +192,7 @@ whichAreBijection <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 #' you have a column with an amount and another with the same amount but rounded, the second 
 #' column is included in the first.
 #' @param dataSet Matrix, data.frame or data.table
-#' @param keep_cols list of columns not to drop (list of character, default to NULL)
+#' @param keep_cols List of columns not to drop (list of character, default to NULL)
 #' @param verbose Should the algorithm talk (logical, default to TRUE)
 #' @details 
 #' This function is performing exponential search and is looking to every couple of columns. \cr
@@ -202,9 +200,13 @@ whichAreBijection <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 #' - if there is an id column, it will say everything is included in the id column; \cr
 #' - the order of columns will influence the result.\cr
 #' \cr
+#'For example if 
+#' you have a column with an amount and another with the same amount but rounded, the second 
+#' column is included in the first.\cr
+#' \cr
 #' And last but not least, with some machine learning algorithm it's not always smart to drop 
 #' columns even if they don't give more info: the extreme example is the id example.
-#' @return A list of index of columns that have an exact duplicate in the dataSet set.
+#' @return A list of index of columns that have an exact duplicate in the \code{dataSet}.
 #' @examples
 #' # Load toy data set
 #' require(data.table)
@@ -231,24 +233,24 @@ whichAreIncluded <- function(dataSet, keep_cols = NULL, verbose = TRUE){
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
   is.verbose(verbose)
-  keep_cols <- real_cols(keep_cols, names(dataSet), function_name)
+  keep_cols <- real_cols(dataSet, keep_cols, function_name)
   ## Initialization
   if (ncol(dataSet) <= 1){ # If there are less than 1 column we do nothing
     return(NULL)
   }
-  listOfIncluded <- NULL
+  included_cols <- NULL
   I <- 1:max(ncol(dataSet) - 1, 1) 
   keep_cols_index <- which(names(dataSet) %in% keep_cols)
   if (verbose){
     pb <- initPB(function_name, names(dataSet))
   }
   nbr_various_val <- sapply(dataSet, uniqueN)
-  ## Computation # to-do dé-gorifier
+  ## Computation # to-do clean it
   while (length(I) > 0){
     i <- I[1]
     
     J <- (i+1):ncol(dataSet)
-    J <- J[!J %in% listOfIncluded]
+    J <- J[!J %in% included_cols]
     while (length(J) > 0){
       j <- J[1]
       if (! all(c(i, j) %in% keep_cols_index)){
@@ -256,14 +258,14 @@ whichAreIncluded <- function(dataSet, keep_cols = NULL, verbose = TRUE){
         temp_data <- temp_data[!duplicated(temp_data)]
         
         if (nrow(temp_data) == nbr_various_val[i] & ! j %in% keep_cols_index){
-          listOfIncluded <- c(listOfIncluded, j)
+          included_cols <- c(included_cols, j)
           if(verbose){
             printl(function_name, ": ", names(dataSet)[j], " is included in column ", names(dataSet)[i], ".")
           }
         }
         else{
           if (nrow(temp_data) == nbr_various_val[j] & ! i %in% keep_cols_index){
-            listOfIncluded <- c(listOfIncluded, i)
+            included_cols <- c(included_cols, i)
             if(verbose){
               printl(function_name, ": ", names(dataSet)[i], " is included in column ", names(dataSet)[j], ".")
             }
@@ -274,19 +276,17 @@ whichAreIncluded <- function(dataSet, keep_cols = NULL, verbose = TRUE){
       J <- J[-1] # drop handled j
     }
     I <- I[-1] # drop handled i
-    I <- I[!I %in% listOfIncluded]
+    I <- I[!I %in% included_cols]
     if (verbose){
       setPB(pb, names(dataSet)[i])
     }
   }
-  if (verbose){
-    close(pb); rm(pb); gc()
-  }
+  gc(verbose = FALSE)
   ## Wrapp up
-  if (! is.null(listOfIncluded)){
-    listOfIncluded <- sort(unique(listOfIncluded))
+  if (! is.null(included_cols)){
+    included_cols <- sort(unique(included_cols))
   }  
-  return(listOfIncluded)
+  return(included_cols)
 }
 
 ###################################################################################################
@@ -294,7 +294,7 @@ whichAreIncluded <- function(dataSet, keep_cols = NULL, verbose = TRUE){
 ###################################################################################################
 # Internal function to compute test on couple of columns
 # @param dataSet Matrix, data.frame or data.table
-# @param keep_cols list of columns not to drop (list of character, default to NULL)
+# @param keep_cols List of columns not to drop (list of character, default to NULL)
 # @param verbose Should the algorithm talk (logical, default to TRUE)
 # @param test_function function to perform test
 # @param function_name function from which this function is called (for verbose)
@@ -305,7 +305,7 @@ bi_col_test <- function(dataSet, keep_cols = NULL, verbose = TRUE, test_function
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
   is.verbose(verbose)
-  keep_cols <- real_cols(keep_cols, names(dataSet), function_name)
+  keep_cols <- real_cols(dataSet, keep_cols, function_name)
   
   ## Initialization
   if (ncol(dataSet) <= 1){ # If there are less than 1 column we do nothing
@@ -351,9 +351,7 @@ bi_col_test <- function(dataSet, keep_cols = NULL, verbose = TRUE, test_function
     }
     col_I <- col_I[-1]
   }
-  if (verbose){
-    close(pb); rm(pb); gc()
-  }
+  gc(verbose = FALSE)
   ## Wrapp-up
   result_list <- which(names(dataSet) %in% result_list) # To return indexes
   if (! is.null(result_list)){

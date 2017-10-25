@@ -3,37 +3,39 @@
 ###################################################################################################
 #' Preparation pipeline
 #' 
-#' Full pipeline for preparing your dataSet set \cr
-#' It will perform the following steps: \cr
-#' - Correct set: unfactor factor with many values, id dates and numeric that are hiden in string \cr
-#' - Transform set: compute differences between every date, transform dates into factors, generate 
-#' features from string..., if `key` is provided, will perform aggregate according to this key \cr
-#' - Filter set: filter constant, in double or bijection variables. If `digits` is provided, 
-#' will round numeric \cr
-#' - Handle NA: will perform \code{\link{fastHandleNa}}) \cr
-#' - Shape set: will put the result in asked shape (`finalForm`) with acceptable columns format.
+#' Full pipeline for preparing your dataSet set.
 #' @param dataSet Matrix, data.frame or data.table
 #' @param finalForm "data.table" or "numerical_matrix" (default to data.table)
 #' @param verbose Should the algorithm talk? (logical, default to TRUE)
-#' @param ... additional parameters to tune pipeline (see details)
+#' @param ... Additional parameters to tune pipeline (see details)
 #' @details
 #' Additional arguments are available to tune pipeline: 
 #' \itemize{
-#'   \item \code{key} name of a column of dataSet according to which dataSet should be aggregated 
+#'   \item \code{key} Name of a column of dataSet according to which dataSet should be aggregated 
 #'      (character)
 #'   \item \code{analysisDate} A date at which the dataSet should be aggregated 
 #'      (differences between every date and analysisDate will be computed) (Date)
-#'   \item \code{n_unfactor} number of max value in a facotr, set it to -1 to disable 
+#'   \item \code{n_unfactor} Number of max value in a facotr, set it to -1 to disable 
 #'   \code{\link{unFactor}} function.  (numeric, default to 53)
 #'   \item \code{digits} The number of digits after comma (optional, numeric, if set will perform 
 #'      \code{\link{fastRound}})
 #'   \item \code{dateFormats} List of format of Dates in dataSet (list of characters)
-#'   \item \code{name_separator} string to separate parts of new column names (string)
-#'   \item \code{functions}  aggregation functions for numeric columns (list of functions)
-#'   \item \code{factor_date_type} aggregation level to factorize date (see 
+#'   \item \code{name_separator} character to separate parts of new column names (character, default to ".")
+#'   \item \code{functions}  Aggregation functions for numeric columns, see \code{\link{aggregateByKey}} (list of functions)
+#'   \item \code{factor_date_type} Aggregation level to factorize date (see 
 #'      \code{\link{generateFactorFromDate}}) (character, default to "yearmonth")
 #' }
-#' @return A data.table or a numerical matrix (according to finalForm)  and 
+#' @return A data.table or a numerical matrix (according to \code{finalForm}). \cr
+#' It will perform the following steps:
+#' \itemize{
+#'   \item Correct set: unfactor factor with many values, id dates and numeric that are hiden in character
+#'   \item Transform set: compute differences between every date, transform dates into factors, generate 
+#'      features from character..., if \code{key} is provided, will perform aggregate according to this \code{key}
+#'   \item Filter set: filter constant, in double or bijection variables. If `digits` is provided, 
+#'      will round numeric
+#'   \item Handle NA: will perform \code{\link{fastHandleNa}})
+#'   \item Shape set: will put the result in asked shape (\code{finalForm}) with acceptable columns format.
+#' }
 #' @examples 
 #' # Load ugly set
 #' \dontrun{
@@ -79,11 +81,9 @@ prepareSet <- function(dataSet, finalForm = "data.table", verbose = TRUE, ...){
   dataSet <- fastFilterVariables(dataSet, keep_cols = args[["key"]], verbose = verbose)
   
   # 1.1 Unfactor
+  n_unfactor <- 53
   if (! is.null(args[["n_unfactor"]])){
     n_unfactor <- args[["n_unfactor"]]
-  }
-  else{
-    n_unfactor <- 53
   }
   dataSet <- unFactor(dataSet, n_unfactor = n_unfactor, verbose = verbose)
   
@@ -97,7 +97,7 @@ prepareSet <- function(dataSet, finalForm = "data.table", verbose = TRUE, ...){
   }
   
   # 2.1 Generate from dates
-  date_cols <- names(dataSet)[sapply(dataSet, is.date)]
+  date_cols <- real_cols(dataSet, cols = "auto", function_name, types = "date")
   if (!is.null(args[["key"]])){ # don't transform key
     date_cols <- date_cols[date_cols != args[["key"]]]
   }
@@ -111,7 +111,7 @@ prepareSet <- function(dataSet, finalForm = "data.table", verbose = TRUE, ...){
                                    name_separator = args[["name_separator"]], verbose = verbose)
   
   # 2.2 Generate features from character
-  character_cols <- names(result)[sapply(result, is.character)]
+  character_cols <- real_cols(dataSet, cols = "auto", function_name, types = "character")
   if (!is.null(args[["key"]])){ # don't transform key
     character_cols <- character_cols[character_cols != args[["key"]]]
   }
@@ -133,8 +133,7 @@ prepareSet <- function(dataSet, finalForm = "data.table", verbose = TRUE, ...){
   
   # 3.2 Round
   if(!is.null(args[["digits"]])){
-    digits <- args[["digits"]]
-    result <- fastRound(result, digits = digits, verbose = verbose)
+    result <- fastRound(result, digits = args[["digits"]], verbose = verbose)
   }
   
   ### 4 Handle NA

@@ -1,10 +1,10 @@
 ###################################################################################
 ########################### findAndTransformDates #################################
 ###################################################################################
-#' Identify date columns in a dataSet set
+#' Identify date columns
 #' 
-#' Function to find and transform dates. It use a bunch of default formats. 
-#' But you can also add your own formats.
+#' Find and transform dates that are hidden in a character column. \cr
+#' It use a bunch of default formats, and you can also add your own formats.
 #' @param dataSet Matrix, data.frame or data.table
 #' @param formats List of additional Date formats to check (see \code{\link{strptime}})
 #' @param n_test Number of non-null rows on which to test (numeric, default to 30)
@@ -16,9 +16,7 @@
 #' they will be considered as timestamps and you might have some issues. On the other side, 
 #' if you have timestamps before 1990-01-01, they won't be found, but you can use 
 #' \code{\link{setColAsDate}} to force transformation.
-#' @section Warning:
-#' All these changes will happen \strong{by reference}.
-#' @return The dataSet set (as a data.table) with identified dates transformed.
+#' @return dataSet set (as a data.table) with identified dates transformed by \strong{reference}.
 #' @examples
 #' # Load exemple set
 #' data(messy_adult)
@@ -42,7 +40,7 @@ findAndTransformDates <- function(dataSet, formats = NULL, n_test = 30, verbose 
   # First we find dates
   dates <- identifyDates(dataSet, formats = formats, n_test = n_test, verbose = verbose)
   if (verbose){
-    printl(function_name, ": It took me ", round((proc.time() - start_time)[[3]], 2), "s to identify formats")
+    printl(function_name, ": It took me ", round( (proc.time() - start_time)[[3]], 2), "s to identify formats")
   }
   # Now we transform (if there is something to transform)
   if (length(dates$dates) < 1){
@@ -56,7 +54,7 @@ findAndTransformDates <- function(dataSet, formats = NULL, n_test = 30, verbose 
     dataSet <- setColAsDate(dataSet, cols = dates$dates[i], format = dates$formats[i], verbose = FALSE)
   }
   if (verbose){
-    printl(function_name, ": It took me ", round((proc.time() - start_time)[[3]], 2), "s to transform ", length(dates$dates), " columns to a Date format.")
+    printl(function_name, ": It took me ", round( (proc.time() - start_time)[[3]], 2), "s to transform ", length(dates$dates), " columns to a Date format.")
   }
   return(dataSet)
 }
@@ -90,28 +88,35 @@ identifyDates <- function(dataSet, formats = NULL, n_test = 30, verbose = TRUE, 
   ## Initialization
   dates <- NULL
   formats <- NULL
-  date_sep <-  c(",", "/", "-", "_", ":")
+  date_sep <-  getPossibleSeparators()
   ## Computation
   if (verbose){ 
     pb <- initPB(function_name, names(dataSet))
   }
   for ( col in names(dataSet) ){ 
     # We search dates only in characters
-    if (is.character(dataSet[[col]]) || is.numeric(dataSet[[col]])){
+    if (is.character(dataSet[[col]]) || is.numeric(dataSet[[col]]) || (is.factor(dataSet[[col]]) & is.character(levels(dataSet[[col]])))){
       # Get a few lines that aren't NA, NULL nor ""
-      data_sample <- findNFirstNonNull(dataSet[[col]], n_test)
+      if (is.factor(dataSet[[col]])){ # If it's a factor, we take levels to convert
+        data_sample <- findNFirstNonNull(levels(dataSet[[col]]), n_test)
+      }
+      else{
+        data_sample <- findNFirstNonNull(dataSet[[col]], n_test)
+      }
       
       # We check only columns that contains something (not NA, NULL, "")
       if (length(data_sample) > 0){ 
         if (is.character(data_sample)){
           # Identify potentially used separator by checking it split date in at last two elements
           date_sep_tmp <- date_sep[sapply(date_sep, function(x)length(grep(x, data_sample))) > 0] 
-          
+          if (length(date_sep_tmp) == 0){
+            next() # No separator means no dates
+          }
           # Check formats with "date_hours" only if there are more than 10 characters
           date_hours <- max(sapply(data_sample, nchar), na.rm = TRUE) > 10 
           # Debug warning
           if (is.na(date_hours) || is.infinite(date_hours)){ 
-            warning(paste0(function_name, ": error i shouldn't be there.",  ))
+            warning(paste0(function_name, ": error i shouldn't be there. Please report bug on GitHub.",  ))
             date_hours <- FALSE
           }
           # Build list of all formats to check
@@ -136,9 +141,7 @@ identifyDates <- function(dataSet, formats = NULL, n_test = 30, verbose = TRUE, 
       setPB(pb, col)
     }
   }
-  if (verbose){ 
-    close(pb); rm(pb); gc()
-  }
+  gc(verbose = FALSE)
   ## Wrapp-up
   return(list(dates = dates, formats = formats))
 }
@@ -173,8 +176,9 @@ identifyDatesFormats <- function(dataSet, formats){
   while (!formatFound & n_format <= N_format){
     # We try to convert and unconvert to see if we found the right format
     converted <- as.POSIXct(dataSet, format = formats[n_format])
+    # To-do: find a better way to code that
     un_converted <- format(converted, format = formats[n_format])
-    if (sum(un_converted == dataSet, na.rm = TRUE) == length(dataSet)){
+    if (control_date_conversion(un_converted, dataSet)){
       formatFound <- TRUE
     }
     else{ # In a "else" otherwise if we find the format we will always take the second one!
@@ -222,19 +226,26 @@ identifyTimeStampsFormats <- function(dataSet){
   return (NULL)
 }
 
+## Control that date is the same (with more checks like: without 0 or tolower? or boths?)
+control_date_conversion <- function(un_converted, original){
+  without_0 <- gsub("(?<=^|(?![:])[[:punct:]])0", "", un_converted, perl = TRUE)
+  tolowers <- tolower(un_converted)
+  tolowers_without_0 <- tolower(without_0)
+  return(identical(un_converted, original) || identical(without_0, original) || identical(tolowers, original) || identical(tolowers_without_0, original))
+}
 
 #######################################################################################
 ############################### Unify dates types #####################################
 #######################################################################################
 #' Unify dates format
 #'
-#' Unify every column in a date format to the same date format
+#' Unify every column in a date format to the same date format.
 #' @param dataSet Matrix, data.frame or data.table
-#' @param format desired target format: Date, POSIXct or POSIXlt, (character, default to Date)
+#' @param format Desired target format: Date, POSIXct or POSIXlt, (character, default to Date)
 #' @details 
-#' This function only handle Date, POSIXct and POSIXlt dates. 
+#' This function only handle Date, POSIXct and POSIXlt dates.  \cr
 #' POSIXct format is a bit slower than Date but can keep hours-min.
-#' @return The same dataSet set but with dates column with the desired format
+#' @return The same dataSet set but with dates column with the desired format.
 #' @examples
 #' # build a data.table
 #' require(data.table)
@@ -245,7 +256,7 @@ identifyTimeStampsFormats <- function(dataSet){
 #'
 #' # Control result
 #' sapply(dataSet, class)
-#' # return date for both columns
+#' # return Date for both columns
 #' @import data.table
 #' @export
 dateFormatUnifier <- function(dataSet, format = "Date"){

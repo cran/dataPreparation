@@ -1,22 +1,23 @@
 requireNamespace("data.table")
 verbose <- TRUE
+Sys.setlocale("LC_TIME", "C")
 ## findNFirstNonNull
 #-------------------
 
 
 test_that("findNFirstNonNull: test numerics", 
           {
-            expect_equal(all(findNFirstNonNull(1:50, 5) == 1:5), TRUE)
-            expect_equal(all(findNFirstNonNull(1:50, 10) == 1:10), TRUE)
-            expect_equal(all(findNFirstNonNull(c(NA, 1:50), 10) == 1:10), TRUE)
+            expect_identical(findNFirstNonNull(1:50, 5), 1:5)
+            expect_identical(findNFirstNonNull(1:50, 10), 1:10)
+            expect_identical(findNFirstNonNull(c(NA, 1:50), 10), 1:10)
           })
 
 
 test_that("findNFirstNonNull: test character", 
           {
-            expect_equal(all(findNFirstNonNull(LETTERS, 3) == c("A", "B", "C")), TRUE)
-            expect_equal(all(findNFirstNonNull(LETTERS, 5) == c("A", "B", "C", "D", "E")), TRUE)
-            expect_equal(all(findNFirstNonNull(c(NA, LETTERS), 5) == c("A", "B", "C", "D", "E")), TRUE)
+            expect_identical(findNFirstNonNull(LETTERS, 3), c("A", "B", "C"))
+            expect_identical(findNFirstNonNull(LETTERS, 5), c("A", "B", "C", "D", "E"))
+            expect_identical(findNFirstNonNull(c(NA, LETTERS), 5), c("A", "B", "C", "D", "E"))
           })
 
 
@@ -26,13 +27,12 @@ test_that("findNFirstNonNull: not enough not NAs values",
           })
 ## checkAndReturnDataTable
 #-------------------------
-data("messy_adult")
-
+data("iris")
 test_that("checkAndReturnDataTable", 
           {
-            expect_equal(all(class(checkAndReturnDataTable(messy_adult)) == c("data.table", "data.frame")), TRUE)
-            expect_equal(all(class(checkAndReturnDataTable(as.data.frame(messy_adult))) == c("data.table", "data.frame")), TRUE)
-            expect_equal(all(class(checkAndReturnDataTable(as.matrix(messy_adult))) == c("data.table", "data.frame")), TRUE)
+            expect_true(is.data.table(checkAndReturnDataTable(iris)))
+            expect_true(is.data.table(checkAndReturnDataTable(as.data.frame(iris))))
+            expect_true(is.data.table(checkAndReturnDataTable(as.matrix(iris))))
             
             expect_error(checkAndReturnDataTable("a"))
             expect_error(checkAndReturnDataTable(1))
@@ -58,8 +58,8 @@ test_that("is.verbose_levels: control input",
             expect_error(is.verbose_levels(3, max_level = 2))
           })
 
-## checkIfIsColumn
-#------------------
+## dataSet
+#---------
 
 dataSet <- data.table(a = "1")
 is.col(dataSet, cols = "a")
@@ -69,12 +69,22 @@ expect_error(is.col(1, cols = "b"), "is.col: dataSet should be a data.table, dat
 
 ## real_cols 
 # ----------
+data("adult")
 data("messy_adult")
+messy_adult <- findAndTransformDates(messy_adult, verbose = FALSE)
 test_that("real_cols:",
           {
-            expect_equal(length(real_cols(c("mail", "asucgzr"), names(messy_adult), function_name = "test")), 1)
-          }
-)
+            expect_equal(length(real_cols(adult, c("education", "asucgzr"))), 1)
+            expect_equal(real_cols(adult, cols = "auto"), colnames(adult))
+			expect_null(real_cols(adult, cols = NULL))
+			expect_null(real_cols(adult, cols = character(0)))
+            expect_identical(real_cols(adult, cols = "auto", types = c("numeric", "integer")), c("age", "fnlwgt", "education_num", "capital_gain", "capital_loss", 
+                                                                                                 "hr_per_week"))
+            expect_identical(real_cols(adult, cols = c("education", "age"), types = c("numeric", "integer")), "age")
+            expect_identical(real_cols(adult, cols = c("education", "age"), types = c("numeric")), "age")
+            expect_identical(real_cols(messy_adult, cols = c("date1", "date2"), types = c("date")), c("date1", "date2"))
+          })
+
 ## getPossibleSeparators
 #------------------------
 result <- getPossibleSeparators()
@@ -114,10 +124,10 @@ test_that("true.aggFunction:",
 # ---------------
 test_that("function.maker: ",
           {
-            expect_equal(class(function.maker(function(x){sum(x, na.rm = TRUE)}, type = "numeric")), "function")
-            expect_equal(class(function.maker(1, type = "numeric")), "function")
-            expect_equal(class(function.maker("a", type = "character")), "function")
-            expect_equal(class(function.maker(TRUE, type = "logical")), "function")
+            expect_true(is.function(function.maker(function(x){sum(x, na.rm = TRUE)}, type = "numeric")))
+            expect_true(is.function(function.maker(1, type = "numeric")))
+            expect_true(is.function(function.maker("a", type = "character")))
+            expect_true(is.function(function.maker(TRUE, type = "logical")))
           })
 
 test_that("function.maker: warning not handling na",
@@ -147,7 +157,7 @@ test_that("function.maker: error wrong type",
 test_that("function.maker: error wrong type",
           {
             expect_equal(make_new_col_name("a", c("a", "b")), "a1")
-			expect_equal(make_new_col_name("a", c("a", "a1")), "a2")
+            expect_equal(make_new_col_name("a", c("a", "a1")), "a2")
             expect_equal(make_new_col_name("c", c("a", "b")), "c")
             expect_error(make_new_col_name(1, c("a", "b")), "new_col and col_names should be character.")
           })

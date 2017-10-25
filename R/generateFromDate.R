@@ -5,14 +5,15 @@
 #' 
 #' Taking Date or POSIXct colums, and building factor columns from them. 
 #' @param dataSet Matrix, data.frame or data.table
-#' @param cols list of date column(s) name(s) of dataSet to transform into factor. To transform all 
-#' dates, set it to "auto"
+#' @param cols List of date column(s) name(s) of dataSet to transform into factor. To transform all 
+#' dates, set it to "auto". (characters, default to "auto")
 #' @param type "year", "yearquarter", "yearmonth", "quarter" or "month", way to aggregate a date, 
 #' (character, default to "yearmonth")
-#' @param drop should \code{cols} be dropped after generation (logical, default to FALSE)
-#' @param verbose should the function log (logical, default to TRUE)
+#' @param drop Should \code{cols} be dropped after generation (logical, default to FALSE)
+#' @param verbose Should the function log (logical, default to TRUE)
 #' @param ... Other arguments such as \code{name_separator} to separate words in new columns names
 #' (character, default to ".")
+#' @return \code{dataSet} with new columns. \code{dataSet} is edited by \strong{reference}.
 #' @examples
 #' # Load set, and find dates
 #' data(messy_adult)
@@ -29,49 +30,41 @@
 #' head(messy_adult[, .(date1.quarter, date2.quarter)])
 #' @export
 #' @import data.table
-## Working environement
 generateFactorFromDate <- function(dataSet, cols, type = "yearmonth", drop = FALSE, verbose = TRUE, ...){
+  ## Working environement
   function_name <- "generateFactorFromDate"
   
   ## Sanity check
   dataSet <- checkAndReturnDataTable(dataSet)
-  cols <- real_cols(cols, names(dataSet), function_name = function_name)
+  cols <- real_cols(dataSet, cols, function_name, types = "date")
   is.verbose(verbose)
-  if (all(cols == "auto")){
-    cols = names(dataSet)[sapply(dataSet, is.date)]  
-  }
+  
   ## Initialization
   args <- list(...)
   name_separator <- build_name_separator(args)
   start_time <- proc.time()
-  n_transformed <- 0
+  
   ## Computation
   if (verbose){ 
     printl(function_name, ": I will create a factor column from each date column.")
     pb <- initPB(function_name, cols)
   }
   for (col in cols){
-    if (is.date(dataSet[[col]])){
-      new_col <- paste0(col, name_separator, type)
-      new_col <- make_new_col_name(new_col, names(dataSet))
-      dataSet[, (new_col) := date_factor(dataSet[[col]], type = type)]
-      n_transformed <- n_transformed + 1
-      if (isTRUE(drop)){
-        dataSet[, c(col) := NULL]
-      }
+    new_col <- paste0(col, name_separator, type)
+    new_col <- make_new_col_name(new_col, names(dataSet))
+    dataSet[, (new_col) := date_factor(dataSet[[col]], type = type)]
+    if (isTRUE(drop)){
+      dataSet[, c(col) := NULL]
     }
-    else{
-      warning(paste0(function_name, ": ", col, " isn't a date, i do nothing."))
-      
-    }
+  
     if (verbose){
       setPB(pb, col)
     }
   }
   if (verbose){ 
-    close(pb); rm(pb); gc()
-    printl(function_name, ": It took me ", round((proc.time() - start_time)[[3]], 2), 
-           "s to transform ", n_transformed, " column(s).")
+	gc(verbose = FALSE)
+    printl(function_name, ": It took me ", round( (proc.time() - start_time)[[3]], 2), 
+           "s to transform ", length(cols), " column(s).")
   }
   
   ## Wrapp-up
@@ -145,16 +138,16 @@ date_factor <- function(dataSet, type = "yearmonth"){
 #' 
 #' Perform the differences between all dates of the dataSet set and optionally with a static date.
 #' @param dataSet Matrix, data.frame or data.table
-#' @param cols list of date column(s) name(s) of dataSet to comute difference on. To transform all 
-#' dates, set it to "auto"
+#' @param cols List of date column(s) name(s) of dataSet to comute difference on. To transform all 
+#' dates, set it to "auto". (character, default to "auto")
 #' @param analysisDate Static date (Date or POSIXct, optional)
-#' @param units unit of difference between too dates (string, default to 'years') 
-#' @param drop should \code{cols} be dropped after generation (logical, default to FALSE)
+#' @param units Unit of difference between too dates (string, default to 'years') 
+#' @param drop Should \code{cols} be dropped after generation (logical, default to FALSE)
 #' @param verbose should the function log (logical, default to TRUE)
 #' @param ... Other arguments such as \code{name_separator} to separate words in new columns names
 #' (character, default to ".")
 #' @details 
-#' \code{units} is the same as \code{\link{difftime}} units, but with years as a unit. 
+#' \code{units} is the same as \code{\link{difftime}} units, but with one more possiblity: years. 
 #' @return dataSet (as a \code{\link{data.table}}) with more columns. 
 #' A numeric column has been added for every couple of Dates. The result is in years. 
 #' @examples
@@ -173,7 +166,7 @@ date_factor <- function(dataSet, type = "yearmonth"){
 #' dataSet <- generateDateDiffs(dataSet, cols = "auto", analysisDate = as.Date("2016-11-14"))
 #' @import data.table
 #' @export
-generateDateDiffs <- function(dataSet, cols, analysisDate = NULL, units = "years", drop = FALSE, verbose = TRUE, ...){
+generateDateDiffs <- function(dataSet, cols = "auto", analysisDate = NULL, units = "years", drop = FALSE, verbose = TRUE, ...){
   ## Working environement
   function_name <- "generateDateDiffs"
   
@@ -182,18 +175,8 @@ generateDateDiffs <- function(dataSet, cols, analysisDate = NULL, units = "years
   if (!is.null(analysisDate) & ! is.date(analysisDate)){
     stop(paste0(function_name, ": analysisDate must be a Date"))
   }
-  if (all(cols == "auto")){
-    cols = names(dataSet)[sapply(dataSet, is.date)]  
-  }
-  else{
-    cols <- real_cols(cols, names(dataSet), function_name = function_name)
-    for (col in cols){
-      if (! is.date(dataSet[[col]])){
-        warning(paste0(function_name, ": ", col, " isn't a date column, i don't do anything with it."))
-        cols <- cols[col != cols]
-      }
-    }
-  }
+  cols <- real_cols(dataSet, cols, function_name, types = "date")
+
   ## Initialization
   args <- list(...)
   name_separator <- build_name_separator(args)
@@ -232,8 +215,7 @@ generateDateDiffs <- function(dataSet, cols, analysisDate = NULL, units = "years
     }
   }
   if (verbose){ 
-	close(pb); rm(pb); gc()
-    printl(function_name, ": It took me ", round((proc.time() - start_time)[[3]], 2), 
+    printl(function_name, ": It took me ", round( (proc.time() - start_time)[[3]], 2), 
            "s to create ", n_transformed, " column(s).")
   }
   ## wrapp-up
