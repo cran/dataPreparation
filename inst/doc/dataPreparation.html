@@ -11,15 +11,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2018-10-17" />
+<meta name="date" content="2019-01-02" />
 
-<title>dataPreparation</title>
+<title>Tutorial</title>
 
 <script src="data:application/x-javascript;base64,JChkb2N1bWVudCkucmVhZHkoZnVuY3Rpb24oKXsKICAgICQoJ1tkYXRhLXRvZ2dsZT0idG9vbHRpcCJdJykudG9vbHRpcCgpOwogICAgJCgnW2RhdGEtdG9nZ2xlPSJwb3BvdmVyIl0nKS5wb3BvdmVyKCk7Cn0pOwo="></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 div.sourceCode { overflow-x: auto; }
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
   margin: 0; padding: 0; vertical-align: baseline; border: none; }
@@ -55,7 +55,29 @@ code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
 code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -68,8 +90,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">dataPreparation</h1>
-<h4 class="date"><em>2018-10-17</em></h4>
+<h1 class="title toc-ignore">Tutorial</h1>
+<h4 class="date"><em>2019-01-02</em></h4>
 
 
 
@@ -223,7 +245,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">unFactor</span>(messy_adult)</code></pre></div>
 <pre><code># &quot;unFactor: I will identify variable that are factor but shouldn't be.&quot;
 # &quot;unFactor: I unfactor mail.&quot;
-# &quot;unFactor: It took me 0s to unfactor 1 column(s).&quot;</code></pre>
+# &quot;unFactor: It took me 0.02s to unfactor 1 column(s).&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">class</span>(messy_adult<span class="op">$</span>mail))</code></pre></div>
 <pre><code># &quot;character&quot;</code></pre>
 </div>
@@ -231,8 +253,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">2.2</span> Identifing and transforming date columns</h2>
 <p>The next thing to do is to <strong>identify</strong> columns that are dates (the first 4 ones) and <strong>transform</strong> them.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">findAndTransformDates</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;findAndTransformDates: It took me 0.6s to identify formats&quot;
-# &quot;findAndTransformDates: It took me 0.09s to transform 4 columns to a Date format.&quot;</code></pre>
+<pre><code># &quot;findAndTransformDates: It took me 0.89s to identify formats&quot;
+# &quot;findAndTransformDates: It took me 0.25s to transform 4 columns to a Date format.&quot;</code></pre>
 Let’s have a look to the transformation performed on those 4 columns:
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -449,7 +471,7 @@ NA
 <h2><span class="header-section-number">2.3</span> Identifying and transforming numeric columns</h2>
 <p>And now the same thing with numeric</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">findAndTransformNumerics</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;findAndTransformNumerics: It took me 0.02s to identify 3 numerics column(s), i will set them as numerics&quot;
+<pre><code># &quot;findAndTransformNumerics: It took me 0s to identify 3 numerics column(s), i will set them as numerics&quot;
 # &quot;setColAsNumeric: I will set some columns as numeric&quot;
 # &quot;setColAsNumeric: I am doing the column num1.&quot;
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
@@ -458,7 +480,7 @@ NA
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
 # &quot;setColAsNumeric: I am doing the column num3.&quot;
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;findAndTransformNumerics: It took me 0.04s to transform 3 column(s) to a numeric format.&quot;</code></pre>
+# &quot;findAndTransformNumerics: It took me 0.06s to transform 3 column(s) to a numeric format.&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -641,13 +663,13 @@ num3
 <h2><span class="header-section-number">3.1</span> Look for constant variables</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constant_cols &lt;-<span class="st"> </span><span class="kw">whichAreConstant</span>(messy_adult)</code></pre></div>
 <pre><code># &quot;whichAreConstant: constant is constant.&quot;
-# &quot;whichAreConstant: it took me 0s to identify 1 constant column(s)&quot;</code></pre>
+# &quot;whichAreConstant: it took me 0.01s to identify 1 constant column(s)&quot;</code></pre>
 </div>
 <div id="look-for-columns-in-double" class="section level2">
 <h2><span class="header-section-number">3.2</span> Look for columns in double</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">double_cols &lt;-<span class="st"> </span><span class="kw">whichAreInDouble</span>(messy_adult)</code></pre></div>
 <pre><code># &quot;whichAreInDouble: num3 is exactly equal to num1. I put it in drop list.&quot;
-# &quot;whichAreInDouble: it took me 0s to identify 1 column(s) to drop.&quot;</code></pre>
+# &quot;whichAreInDouble: it took me 0.03s to identify 1 column(s) to drop.&quot;</code></pre>
 </div>
 <div id="look-for-columns-that-are-bijections-of-one-another" class="section level2">
 <h2><span class="header-section-number">3.3</span> Look for columns that are bijections of one another</h2>
@@ -655,7 +677,7 @@ num3
 <pre><code># &quot;whichAreBijection: date4 is a bijection of date3. I put it in drop list.&quot;
 # &quot;whichAreBijection: num3 is a bijection of num1. I put it in drop list.&quot;
 # &quot;whichAreBijection: education_num is a bijection of education. I put it in drop list.&quot;
-# &quot;whichAreBijection: it took me 0.14s to identify 3 column(s) to drop.&quot;</code></pre>
+# &quot;whichAreBijection: it took me 0.17s to identify 3 column(s) to drop.&quot;</code></pre>
 To control this, let’s have a look to the concerned columns:
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1011,7 +1033,7 @@ NA
 <p>Another way to work around dates would be to aggregate them at some level. This time <code>drop</code> is set to <code>TRUE</code> in order to drop date columns.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generateFactorFromDate</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;quarter&quot;</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code># &quot;generateFactorFromDate: I will create a factor column from each date column.&quot;
-# &quot;generateFactorFromDate: It took me 0.04s to transform 3 column(s).&quot;</code></pre>
+# &quot;generateFactorFromDate: It took me 0.06s to transform 3 column(s).&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1211,7 +1233,7 @@ FALSE
 <p>To model something by country; one would want to to compute an aggregation of this table in order to have one line per country.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">agg_adult &lt;-<span class="st"> </span><span class="kw">aggregateByKey</span>(messy_adult, <span class="dt">key =</span> <span class="st">&quot;country&quot;</span>)</code></pre></div>
 <pre><code># &quot;aggregateByKey: I start to aggregate&quot;
-# &quot;aggregateByKey: 139 columns have been constructed. It took 0.26 seconds. &quot;</code></pre>
+# &quot;aggregateByKey: 139 columns have been constructed. It took 0.35 seconds. &quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1792,7 +1814,7 @@ agg_adult &lt;-<span class="st"> </span><span class="kw">prepareSet</span>(messy
 # &quot;unFactor: I will identify variable that are factor but shouldn't be.&quot;
 # &quot;unFactor: I unfactor mail.&quot;
 # &quot;unFactor: It took me 0s to unfactor 1 column(s).&quot;
-# &quot;findAndTransformNumerics: It took me 0s to identify 3 numerics column(s), i will set them as numerics&quot;
+# &quot;findAndTransformNumerics: It took me 0.01s to identify 3 numerics column(s), i will set them as numerics&quot;
 # &quot;setColAsNumeric: I will set some columns as numeric&quot;
 # &quot;setColAsNumeric: I am doing the column num1.&quot;
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
@@ -1801,17 +1823,17 @@ agg_adult &lt;-<span class="st"> </span><span class="kw">prepareSet</span>(messy
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
 # &quot;setColAsNumeric: I am doing the column num3.&quot;
 # &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;findAndTransformNumerics: It took me 0.05s to transform 3 column(s) to a numeric format.&quot;
-# &quot;findAndTransformDates: It took me 0.43s to identify formats&quot;
-# &quot;findAndTransformDates: It took me 0.07s to transform 4 columns to a Date format.&quot;
+# &quot;findAndTransformNumerics: It took me 0.04s to transform 3 column(s) to a numeric format.&quot;
+# &quot;findAndTransformDates: It took me 0.4s to identify formats&quot;
+# &quot;findAndTransformDates: It took me 0.09s to transform 4 columns to a Date format.&quot;
 # &quot;prepareSet: step two: transforming dataSet.&quot;
 # &quot;generateDateDiffs: I will generate difference between dates.&quot;
 # &quot;generateDateDiffs: It took me 0.01s to create 10 column(s).&quot;
 # &quot;generateFactorFromDate: I will create a factor column from each date column.&quot;
-# &quot;generateFactorFromDate: It took me 0.39s to transform 4 column(s).&quot;
-# &quot;generateFromCharacter: it took me: 0.02s to transform 1 character columns into, 3 new columns.&quot;
+# &quot;generateFactorFromDate: It took me 0.05s to transform 4 column(s).&quot;
+# &quot;generateFromCharacter: it took me: 0.01s to transform 1 character columns into, 3 new columns.&quot;
 # &quot;aggregateByKey: I start to aggregate&quot;
-# &quot;aggregateByKey: 193 columns have been constructed. It took 0.4 seconds. &quot;
+# &quot;aggregateByKey: 193 columns have been constructed. It took 0.24 seconds. &quot;
 # &quot;prepareSet: step three: filtering dataSet.&quot;
 # &quot;fastFilterVariables: I check for constant columns.&quot;
 # &quot;fastFilterVariables: I delete 3 constant column(s) in result.&quot;
@@ -1872,6 +1894,7 @@ agg_adult &lt;-<span class="st"> </span><span class="kw">prepareSet</span>(messy
 # &quot;setColAsFactor: max.hr_per_week has more than 10 values, i don't transform it.&quot;
 # &quot;setColAsFactor: income.&lt;=50K has more than 10 values, i don't transform it.&quot;
 # &quot;setColAsFactor: income.&gt;50K has more than 10 values, i don't transform it.&quot;
+# &quot;setColAsFactor: max.date3.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
 # &quot;setColAsFactor: date1.yearmonth.2017 Apr has more than 10 values, i don't transform it.&quot;
 # &quot;setColAsFactor: date1.yearmonth.2017 Aug has more than 10 values, i don't transform it.&quot;
 # &quot;setColAsFactor: date1.yearmonth.2017 Dec has more than 10 values, i don't transform it.&quot;
@@ -1932,7 +1955,7 @@ agg_adult &lt;-<span class="st"> </span><span class="kw">prepareSet</span>(messy
 # &quot;prepareSet: Current distribution of column types:&quot;
 # col_class_end
 #  factor numeric 
-#      37     101</code></pre>
+#      36     102</code></pre>
 <p>As one can see, every previously steps have been done.</p>
 <p>Let’s have a look to the result</p>
 <pre><code># &quot;138 columns have been built; for 42 countries.&quot;</code></pre>
@@ -2135,7 +2158,7 @@ Cuba
 # [1] &quot;Columns are of the following classes:&quot;
 # 
 #  factor numeric 
-#      37     101</code></pre>
+#      36     102</code></pre>
 </div>
 <div id="conclusion" class="section level1">
 <h1><span class="header-section-number">9</span> Conclusion</h1>
