@@ -4,7 +4,7 @@ library(data.table)
 library(knitr)
 library(kableExtra)
 library(pander)
-options(knitr.table.format = "html") 
+options(knitr.table.format = "html")
 Sys.setlocale("LC_TIME", "C")
 
 # A Prefix nulling hook.
@@ -44,7 +44,7 @@ print(head(messy_adult, n = 4))
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
 print(class(messy_adult$mail))
-messy_adult <- unFactor(messy_adult)
+messy_adult <- un_factor(messy_adult)
 print(class(messy_adult$mail))
 
 ## ----echo = FALSE, results='hide', comment="#",  null_prefix=TRUE-------------
@@ -52,7 +52,7 @@ setDT(messy_adult)
 store <- copy(messy_adult[,.(date1, date2, date3, date4)])
 
 ## ---- comment="#",  null_prefix=TRUE------------------------------------------
-messy_adult <- findAndTransformDates(messy_adult)
+messy_adult <- find_and_transform_dates(messy_adult)
 
 ## ----echo = FALSE, results='asis', comment="#",  null_prefix=TRUE-------------
 setnames(store, paste0(names(store), "_prev"))
@@ -66,7 +66,7 @@ kable(toPlot) %>%
 store <- copy(messy_adult[,.(num1, num2, num3)])
 
 ## ---- comment="#",  null_prefix=TRUE------------------------------------------
-messy_adult <- findAndTransformNumerics(messy_adult)
+messy_adult <- find_and_transform_numerics(messy_adult)
 
 ## ----echo = FALSE, results='asis', comment="#",  null_prefix=TRUE-------------
 setnames(store, paste0(names(store), "_prev"))
@@ -77,13 +77,13 @@ kable(toPlot) %>%
 
 
 ## ---- results = 'hold', comment="#",  null_prefix=TRUE------------------------
-constant_cols <- whichAreConstant(messy_adult)
+constant_cols <- which_are_constant(messy_adult)
 
 ## ---- results = 'hold', comment="#",  null_prefix=TRUE------------------------
-double_cols <- whichAreInDouble(messy_adult)
+double_cols <- which_are_in_double(messy_adult)
 
 ## ---- results = 'hold', comment="#",  null_prefix=TRUE------------------------
-bijections_cols <- whichAreBijection(messy_adult)
+bijections_cols <- which_are_bijection(messy_adult)
 
 ## ----comment="#",  null_prefix=TRUE, echo = FALSE-----------------------------
 kable(head(messy_adult[, .(constant, date3, date4, num1, num3, education, education_num)])) %>%
@@ -91,56 +91,56 @@ kable(head(messy_adult[, .(constant, date3, date4, num1, num3, education, educat
 
 ## ----results = "hold", comment="#",  null_prefix=TRUE-------------------------
 ncols <- ncol(messy_adult)
-messy_adult <- fastFilterVariables(messy_adult)
+messy_adult <- fast_filter_variables(messy_adult)
 print(paste0("messy_adult now have ", ncol(messy_adult), " columns; so ", ncols - ncol(messy_adult), " less than before."))
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-messy_adult <- generateDateDiffs(messy_adult, cols = "auto", analysisDate = as.Date("2018-01-01"), units = "days")
+messy_adult <- generate_date_diffs(messy_adult, cols = "auto", analysis_date = as.Date("2018-01-01"), units = "days")
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 kable(cbind(data.frame("..." = rep("  ...", 6)), head(messy_adult[, (ncol(messy_adult) - 4):ncol(messy_adult), with = FALSE], n = 6))) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 12)
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-messy_adult <- generateFactorFromDate(messy_adult, cols = "auto", type = "quarter", drop = TRUE)
+messy_adult <- generate_factor_from_date(messy_adult, cols = "auto", type = "quarter", drop = TRUE)
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 kable(cbind(data.frame("..." = rep("  ...", 6)), head(messy_adult[, (ncol(messy_adult) - 2):ncol(messy_adult), with = FALSE], n = 6))) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 12)
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-messy_adult <- generateFromCharacter(messy_adult, cols = "auto", drop = TRUE)
+messy_adult <- generate_from_character(messy_adult, cols = "auto", drop = TRUE)
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 kable(head(messy_adult[, .(mail.notnull, mail.num, mail.order)], n = 6)) %>%
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 12)
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-agg_adult <- aggregateByKey(messy_adult, key = "country")
+agg_adult <- aggregate_by_key(messy_adult, key = "country")
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 kable(cbind(head(agg_adult[,c(1,13,23,35,45)]), data.frame("..." = rep("  ...", 6)))) %>%
    kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 12)
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-messy_adult <- fastRound(messy_adult, digits = 2)
+messy_adult <- fast_round(messy_adult, digits = 2)
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 kable(cbind(head(messy_adult[, 1:6, with = FALSE], n = 6), data.frame("..." = rep("  ...", 6)))) %>%
    kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE, font_size = 12)
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-messy_adult <- fastHandleNa(messy_adult)
+messy_adult <- fast_handle_na(messy_adult)
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 print(cbind(head(messy_adult[,1:4, with = FALSE], n = 4), data.frame("..." = rep("  ...", 4)), head(messy_adult[,15:ncol(messy_adult), with = FALSE], n = 4)))
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-clean_adult = shapeSet(copy(messy_adult), finalForm = "data.table", verbose = FALSE)
+clean_adult <- shape_set(copy(messy_adult), final_form = "data.table", verbose = FALSE)
 print(table(sapply(clean_adult, class)))
 
 ## ----comment="#",  null_prefix=TRUE-------------------------------------------
-clean_adult <- shapeSet(copy(messy_adult), finalForm = "numerical_matrix", verbose = FALSE)
+clean_adult <- shape_set(copy(messy_adult), final_form = "numerical_matrix", verbose = FALSE)
 
 ## ----echo=FALSE---------------------------------------------------------------
 kable(cbind(head(clean_adult[,1:6]), data.frame("..." = rep("  ...", 6)))) %>%
@@ -148,7 +148,7 @@ kable(cbind(head(clean_adult[,1:6]), data.frame("..." = rep("  ...", 6)))) %>%
 
 ## ----warning = FALSE, comment="#",  null_prefix=TRUE--------------------------
 data("messy_adult")
-agg_adult <- prepareSet(messy_adult, finalForm = "data.table", key = "country", analysisDate = Sys.Date(), digits = 2)
+agg_adult <- prepare_set(messy_adult, final_form = "data.table", key = "country", analysis_date = Sys.Date(), digits = 2)
 
 ## ----echo=FALSE, comment="#",  null_prefix=TRUE-------------------------------
 print(paste0(ncol(agg_adult), " columns have been built; for ", nrow(agg_adult), " countries."))

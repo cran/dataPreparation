@@ -11,11 +11,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2020-02-12" />
+<meta name="date" content="2020-11-13" />
 
-<title>Tutorial</title>
+<title>Tutorial: discovering dataPreparation functionalities</title>
 
+<link href="data:text/css;charset=utf-8,%0Aa%2Eanchor%2Dsection%20%7Bmargin%2Dleft%3A%2010px%3B%20visibility%3A%20hidden%3B%20color%3A%20inherit%3B%7D%0Aa%2Eanchor%2Dsection%3A%3Abefore%20%7Bcontent%3A%20%27%23%27%3B%7D%0A%2EhasAnchor%3Ahover%20a%2Eanchor%2Dsection%20%7Bvisibility%3A%20visible%3B%7D%0A" rel="stylesheet" />
+<script src="data:application/x-javascript;base64,Ly8gQW5jaG9yIHNlY3Rpb25zIHYxLjAgd3JpdHRlbiBieSBBdHN1c2hpIFlhc3Vtb3RvIG9uIE9jdCAzcmQsIDIwMjAuCmRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ0RPTUNvbnRlbnRMb2FkZWQnLCBmdW5jdGlvbigpIHsKICAvLyBEbyBub3RoaW5nIGlmIEFuY2hvckpTIGlzIHVzZWQKICBpZiAodHlwZW9mIHdpbmRvdy5hbmNob3JzID09PSAnb2JqZWN0JyAmJiBhbmNob3JzLmhhc093blByb3BlcnR5KCdoYXNBbmNob3JKU0xpbmsnKSkgewogICAgcmV0dXJuOwogIH0KCiAgY29uc3QgaCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoJ2gxLCBoMiwgaDMsIGg0LCBoNSwgaDYnKTsKCiAgLy8gRG8gbm90aGluZyBpZiBzZWN0aW9ucyBhcmUgYWxyZWFkeSBhbmNob3JlZAogIGlmIChBcnJheS5mcm9tKGgpLnNvbWUoeCA9PiB4LmNsYXNzTGlzdC5jb250YWlucygnaGFzQW5jaG9yJykpKSB7CiAgICByZXR1cm4gbnVsbDsKICB9CgogIC8vIFVzZSBzZWN0aW9uIGlkIHdoZW4gcGFuZG9jIHJ1bnMgd2l0aCAtLXNlY3Rpb24tZGl2cwogIGNvbnN0IHNlY3Rpb25faWQgPSBmdW5jdGlvbih4KSB7CiAgICByZXR1cm4gKCh4LmNsYXNzTGlzdC5jb250YWlucygnc2VjdGlvbicpIHx8ICh4LnRhZ05hbWUgPT09ICdTRUNUSU9OJykpCiAgICAgICAgICAgID8geC5pZCA6ICcnKTsKICB9OwoKICAvLyBBZGQgYW5jaG9ycwogIGguZm9yRWFjaChmdW5jdGlvbih4KSB7CiAgICBjb25zdCBpZCA9IHguaWQgfHwgc2VjdGlvbl9pZCh4LnBhcmVudEVsZW1lbnQpOwogICAgaWYgKGlkID09PSAnJykgewogICAgICByZXR1cm4gbnVsbDsKICAgIH0KICAgIGxldCBhbmNob3IgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdhJyk7CiAgICBhbmNob3IuaHJlZiA9ICcjJyArIGlkOwogICAgYW5jaG9yLmNsYXNzTGlzdCA9IFsnYW5jaG9yLXNlY3Rpb24nXTsKICAgIHguY2xhc3NMaXN0LmFkZCgnaGFzQW5jaG9yJyk7CiAgICB4LmFwcGVuZENoaWxkKGFuY2hvcik7CiAgfSk7Cn0pOwo="></script>
 <script src="data:application/x-javascript;base64,JChkb2N1bWVudCkucmVhZHkoZnVuY3Rpb24oKXsKICAgIGlmICh0eXBlb2YgJCgnW2RhdGEtdG9nZ2xlPSJ0b29sdGlwIl0nKS50b29sdGlwID09PSAnZnVuY3Rpb24nKSB7CiAgICAgICAgJCgnW2RhdGEtdG9nZ2xlPSJ0b29sdGlwIl0nKS50b29sdGlwKCk7CiAgICB9CiAgICBpZiAoJCgnW2RhdGEtdG9nZ2xlPSJwb3BvdmVyIl0nKS5wb3BvdmVyID09PSAnZnVuY3Rpb24nKSB7CiAgICAgICAgJCgnW2RhdGEtdG9nZ2xlPSJwb3BvdmVyIl0nKS5wb3BvdmVyKCk7CiAgICB9Cn0pOwo="></script>
+<link href="data:text/css;charset=utf-8,%0A%2Elightable%2Dminimal%20%7B%0Aborder%2Dcollapse%3A%20separate%3B%0Aborder%2Dspacing%3A%2016px%201px%3B%0Awidth%3A%20100%25%3B%0Amargin%2Dbottom%3A%2010px%3B%0A%7D%0A%2Elightable%2Dminimal%20td%20%7B%0Amargin%2Dleft%3A%205px%3B%0Amargin%2Dright%3A%205px%3B%0A%7D%0A%2Elightable%2Dminimal%20th%20%7B%0Amargin%2Dleft%3A%205px%3B%0Amargin%2Dright%3A%205px%3B%0A%7D%0A%2Elightable%2Dminimal%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%2300000050%3B%0Aempty%2Dcells%3A%20hide%3B%0A%7D%0A%2Elightable%2Dminimal%20tbody%20tr%3Afirst%2Dchild%20td%20%7B%0Apadding%2Dtop%3A%200%2E5em%3B%0A%7D%0A%2Elightable%2Dminimal%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dminimal%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dclassic%20%7B%0Aborder%2Dtop%3A%200%2E16em%20solid%20%23111111%3B%0Aborder%2Dbottom%3A%200%2E16em%20solid%20%23111111%3B%0Awidth%3A%20100%25%3B%0Amargin%2Dbottom%3A%2010px%3B%0Amargin%3A%2010px%205px%3B%0A%7D%0A%2Elightable%2Dclassic%20tfoot%20tr%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dclassic%20tfoot%20tr%3Afirst%2Dchild%20td%20%7B%0Aborder%2Dtop%3A%200%2E14em%20solid%20%23111111%3B%0A%7D%0A%2Elightable%2Dclassic%20caption%20%7B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%20td%20%7B%0Apadding%2Dleft%3A%205px%3B%0Apadding%2Dright%3A%205px%3B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%20th%20%7B%0Apadding%2Dleft%3A%205px%3B%0Apadding%2Dright%3A%205px%3B%0Afont%2Dweight%3A%20normal%3B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Aborder%2Dbottom%3A%200%2E10em%20solid%20%23111111%3B%0A%7D%0A%2Elightable%2Dclassic%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23F9EEC1%3B%0A%7D%0A%2Elightable%2Dclassic%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20%7B%0Aborder%2Dtop%3A%203px%20double%20%23111111%3B%0Aborder%2Dbottom%3A%203px%20double%20%23111111%3B%0Awidth%3A%20100%25%3B%0Amargin%2Dbottom%3A%2010px%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20tfoot%20tr%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20tfoot%20tr%3Afirst%2Dchild%20td%20%7B%0Aborder%2Dtop%3A%203px%20double%20%23111111%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20caption%20%7B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20td%20%7B%0Apadding%2Dleft%3A%205px%3B%0Apadding%2Dright%3A%205px%3B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20th%20%7B%0Apadding%2Dleft%3A%205px%3B%0Apadding%2Dright%3A%205px%3B%0Afont%2Dweight%3A%20normal%3B%0Acolor%3A%20%23222222%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20tbody%20tr%3Alast%2Dchild%20td%20%7B%0Aborder%2Dbottom%3A%203px%20double%20%23111111%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23111111%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23F9EEC1%3B%0A%7D%0A%2Elightable%2Dclassic%2D2%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dmaterial%20%7B%0Amin%2Dwidth%3A%20100%25%3B%0Awhite%2Dspace%3A%20nowrap%3B%0Atable%2Dlayout%3A%20fixed%3B%0Afont%2Dfamily%3A%20Roboto%2C%20sans%2Dserif%3B%0Aborder%3A%201px%20solid%20%23EEE%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Amargin%2Dbottom%3A%2010px%3B%0A%7D%0A%2Elightable%2Dmaterial%20tfoot%20tr%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dmaterial%20tfoot%20tr%3Afirst%2Dchild%20td%20%7B%0Aborder%2Dtop%3A%201px%20solid%20%23EEE%3B%0A%7D%0A%2Elightable%2Dmaterial%20th%20%7B%0Aheight%3A%2056px%3B%0Apadding%2Dleft%3A%2016px%3B%0Apadding%2Dright%3A%2016px%3B%0A%7D%0A%2Elightable%2Dmaterial%20td%20%7B%0Aheight%3A%2052px%3B%0Apadding%2Dleft%3A%2016px%3B%0Apadding%2Dright%3A%2016px%3B%0Aborder%2Dtop%3A%201px%20solid%20%23eeeeee%3B%0A%7D%0A%2Elightable%2Dmaterial%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dmaterial%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%23f5f5f5%3B%0A%7D%0A%2Elightable%2Dmaterial%2Elightable%2Dstriped%20tbody%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dmaterial%2Elightable%2Dstriped%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ddd%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%20%7B%0Amin%2Dwidth%3A%20100%25%3B%0Awhite%2Dspace%3A%20nowrap%3B%0Atable%2Dlayout%3A%20fixed%3B%0Afont%2Dfamily%3A%20Roboto%2C%20sans%2Dserif%3B%0Aborder%3A%201px%20solid%20%23FFFFFF12%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Amargin%2Dbottom%3A%2010px%3B%0Abackground%2Dcolor%3A%20%23363640%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%20tfoot%20tr%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%20tfoot%20tr%3Afirst%2Dchild%20td%20%7B%0Aborder%2Dtop%3A%201px%20solid%20%23FFFFFF12%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%20th%20%7B%0Aheight%3A%2056px%3B%0Apadding%2Dleft%3A%2016px%3B%0Apadding%2Dright%3A%2016px%3B%0Acolor%3A%20%23FFFFFF60%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%20td%20%7B%0Aheight%3A%2052px%3B%0Apadding%2Dleft%3A%2016px%3B%0Apadding%2Dright%3A%2016px%3B%0Acolor%3A%20%23FFFFFF%3B%0Aborder%2Dtop%3A%201px%20solid%20%23FFFFFF12%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF12%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF12%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%2Elightable%2Dstriped%20tbody%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dmaterial%2Ddark%2Elightable%2Dstriped%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23FFFFFF12%3B%0A%7D%0A%2Elightable%2Dpaper%20%7B%0Awidth%3A%20100%25%3B%0Amargin%2Dbottom%3A%2010px%3B%0Acolor%3A%20%23444%3B%0A%7D%0A%2Elightable%2Dpaper%20tfoot%20tr%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A%2Elightable%2Dpaper%20tfoot%20tr%3Afirst%2Dchild%20td%20%7B%0Aborder%2Dtop%3A%201px%20solid%20%2300000020%3B%0A%7D%0A%2Elightable%2Dpaper%20thead%20tr%3Alast%2Dchild%20th%20%7B%0Acolor%3A%20%23666%3B%0Avertical%2Dalign%3A%20bottom%3B%0Aborder%2Dbottom%3A%201px%20solid%20%2300000020%3B%0Aline%2Dheight%3A%201%2E15em%3B%0Apadding%3A%2010px%205px%3B%0A%7D%0A%2Elightable%2Dpaper%20td%20%7B%0Avertical%2Dalign%3A%20middle%3B%0Aborder%2Dbottom%3A%201px%20solid%20%2300000010%3B%0Aline%2Dheight%3A%201%2E15em%3B%0Apadding%3A%207px%205px%3B%0A%7D%0A%2Elightable%2Dpaper%2Elightable%2Dhover%20tbody%20tr%3Ahover%20%7B%0Abackground%2Dcolor%3A%20%23F9EEC1%3B%0A%7D%0A%2Elightable%2Dpaper%2Elightable%2Dstriped%20tbody%20tr%3Anth%2Dchild%28even%29%20%7B%0Abackground%2Dcolor%3A%20%2300000008%3B%0A%7D%0A%2Elightable%2Dpaper%2Elightable%2Dstriped%20tbody%20td%20%7B%0Aborder%3A%200%3B%0A%7D%0A" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -93,17 +105,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Tutorial</h1>
-<h4 class="date">2020-02-12</h4>
+<h1 class="title toc-ignore">Tutorial: discovering dataPreparation functionalities</h1>
+<h4 class="date">2020-11-13</h4>
 
 
 
-<p>This vignette introduces <em>dataPreparation</em> package (v0.2), what it offers, how simple it is to use it.</p>
+<p>This vignette introduces <em>dataPreparation</em> package (v1.0.0), what it offers, how simple it is to use it.</p>
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
 <div id="package-presentation" class="section level2">
 <h2><span class="header-section-number">1.1</span> Package presentation</h2>
-<p>Based on <a href="http://r-datatable.com">data.table</a> package, <strong>dataPreparation</strong> will allow you to do most of the painful data preparation for a data science project with a minimum amount of code.</p>
+<p>Based on <a href="https://rdatatable.gitlab.io/data.table/">data.table</a> package, <strong>dataPreparation</strong> will allow you to do most of the painful data preparation for a data science project with a minimum amount of code.</p>
 <p>This package is</p>
 <ul>
 <li>fast (use <code>data.table</code> and exponential search)</li>
@@ -117,12 +129,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">1.2</span> Main preparation steps</h2>
 <p>Before using any machine learning (ML) algorithm, one needs to prepare its data. Preparing a data set for a data science project can be long and tricky. The main steps are the followings:</p>
 <ul>
-<li><strong>Read</strong>: load the data set (this package don’t treat this point: for csv we recommend <code>data.table::fread</code>)</li>
-<li><strong>Correct</strong>: most of the times, there are some mistake after reading, wrong format… one have to correct them</li>
-<li><strong>Transform</strong>: creating new features from date, categorical, character… in order to have information usable for a ML algorithm (aka: numeric or categorical)</li>
+<li><strong>Read</strong>: load the data set (this package don't treat this point: for csv we recommend <code>data.table::fread</code>)</li>
+<li><strong>Correct</strong>: most of the times, there are some mistake after reading, wrong format... one have to correct them</li>
+<li><strong>Transform</strong>: creating new features from date, categorical, character... in order to have information usable for a ML algorithm (aka: numeric or categorical)</li>
 <li><strong>Filter</strong>: get rid of useless information in order to speed up computation</li>
 <li><strong>Handle NA</strong>: replace missing values</li>
-<li><strong>Pre model transformation</strong>: Specific manipulation for the chosen model (handling NA, discretization, one hot encoding, scaling…)</li>
+<li><strong>Pre model transformation</strong>: Specific manipulation for the chosen model (handling NA, discretization, one hot encoding, scaling...)</li>
 <li><strong>Shape</strong>: put your data set in a nice shape usable by a ML algorithm</li>
 </ul>
 <p>Here are the functions available in this package to tackle those issues:</p>
@@ -145,57 +157,57 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </thead>
 <tbody>
 <tr class="odd">
-<td>unFactor</td>
-<td>generateDateDiffs</td>
-<td>fastFilterVariables</td>
-<td>fastHandleNa</td>
-<td>shapeSet</td>
+<td>un_factor</td>
+<td>generate_date_diffs</td>
+<td>fast_filter_variables</td>
+<td>fast_handle_na</td>
+<td>shape_set</td>
 </tr>
 <tr class="even">
-<td>findAndTransformDates</td>
-<td>generateFactorFromDate</td>
-<td>whichAreConstant</td>
-<td>fastDiscretization</td>
-<td>sameShape</td>
+<td>find_and_transform_dates</td>
+<td>generate_factor_from_date</td>
+<td>which_are_constant</td>
+<td>fast_discretization</td>
+<td>same_shape</td>
 </tr>
 <tr class="odd">
-<td>findAndTransformNumerics</td>
-<td>aggregateByKey</td>
-<td>whichAreInDouble</td>
-<td>fastScale</td>
-<td>setAsNumericMatrix</td>
+<td>find_and_transform_numerics</td>
+<td>aggregate_by_key</td>
+<td>which_are_in_double</td>
+<td>fast_scale</td>
+<td>set_as_numeric_matrix</td>
 </tr>
 <tr class="even">
-<td>setColAsCharacter</td>
-<td>generateFromFactor</td>
-<td>whichAreBijection</td>
+<td>set_col_as_character</td>
+<td>generate_from_factor</td>
+<td>which_are_bijection</td>
 <td></td>
 <td>one_hot_encoder</td>
 </tr>
 <tr class="odd">
-<td>setColAsNumeric</td>
-<td>generateFromCharacter</td>
-<td></td>
+<td>set_col_as_numeric</td>
+<td>generate_from_character</td>
+<td>remove_sd_outlier</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
-<td>setColAsDate</td>
-<td>fastRound</td>
-<td></td>
+<td>set_col_as_date</td>
+<td>fast_round</td>
+<td>remove_rare_categorical</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>setColAsFactor</td>
+<td>set_col_as_factor</td>
 <td>target_encode</td>
-<td></td>
+<td>remove_percentile_outlier</td>
 <td></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p>All of those functions are integrated in the <strong>full pipeline</strong> function <code>prepareSet</code>.</p>
+<p>All of those functions are integrated in the <strong>full pipeline</strong> function <code>prepare_set</code>.</p>
 <p>In this tutorial we will detail all those steps and how to treat them with this package using an example data set.</p>
 </div>
 <div id="tutorial-data" class="section level2">
@@ -230,30 +242,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>3 numeric with different decimal separator</li>
 <li>1 email address</li>
 </ul>
-<p>The same info can be contained in two different columns.</p>
+<p>There are some columns that contains the same information with different représentation (ex: education and eduction_num).</p>
 </div>
 </div>
 <div id="correct-functions" class="section level1">
 <h1><span class="header-section-number">2</span> <em>Correct</em> functions</h1>
 <div id="identifying-factor-that-shouldnt-be" class="section level2">
-<h2><span class="header-section-number">2.1</span> Identifying factor that shouldn’t be</h2>
-<p>It often happens when reading a data set that R put string into a factor even if it shouldn’t be. In this tutorial data set, <code>mail</code> is a factor but shouldn’t be. It will automatically be detected using <code>unFactor</code> function:</p>
+<h2><span class="header-section-number">2.1</span> Identifying factor that shouldn't be</h2>
+<p>It often happens when reading a data set that R put string into a factor even if it shouldn't be. In this tutorial data set, <code>mail</code> is a factor but shouldn't be. It will automatically be detected using <code>un_factor</code> function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">class</span>(messy_adult<span class="op">$</span>mail))</code></pre></div>
 <pre><code># &quot;factor&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">unFactor</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;unFactor: I will identify variable that are factor but shouldn't be.&quot;
-# &quot;unFactor: I unfactor mail.&quot;
-# &quot;unFactor: It took me 0s to unfactor 1 column(s).&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">un_factor</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;date1&quot;         &quot;date2&quot;         &quot;date3&quot;         &quot;date4&quot;        
+# &quot;num1&quot;          &quot;num2&quot;          &quot;constant&quot;      &quot;num3&quot;         
+# &quot;age&quot;           &quot;fnlwgt&quot;        &quot;education_num&quot; &quot;capital_gain&quot; 
+# &quot;capital_loss&quot;  &quot;hr_per_week&quot;  
+# [1] &quot;un_factor: c(\&quot;date1\&quot;, \&quot;date2\&quot;, \&quot;date3\&quot;, \&quot;date4\&quot;, \&quot;num1\&quot;, \&quot;num2\&quot;, \&quot;constant\&quot;, \&quot;num3\&quot;, \&quot;age\&quot;, \&quot;fnlwgt\&quot;, \&quot;education_num\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;) aren't columns of types factor i do nothing for those variables.&quot;
+# [1] &quot;un_factor: I will identify variable that are factor but shouldn't be.&quot;
+# [1] &quot;un_factor: I unfactor mail.&quot;
+# [1] &quot;un_factor: It took me 0s to unfactor 1 column(s).&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">class</span>(messy_adult<span class="op">$</span>mail))</code></pre></div>
 <pre><code># &quot;character&quot;</code></pre>
 </div>
 <div id="identifing-and-transforming-date-columns" class="section level2">
 <h2><span class="header-section-number">2.2</span> Identifing and transforming date columns</h2>
 <p>The next thing to do is to <strong>identify</strong> columns that are dates (the first 4 ones) and <strong>transform</strong> them.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">findAndTransformDates</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;findAndTransformDates: It took me 0.61s to identify formats&quot;
-# &quot;findAndTransformDates: It took me 0.07s to transform 4 columns to a Date format.&quot;</code></pre>
-Let’s have a look to the transformation performed on those 4 columns:
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">find_and_transform_dates</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;find_and_transform_dates: It took me 0.7s to identify formats&quot;
+# &quot;find_and_transform_dates: It took me 0.08s to transform 4 columns to a Date format.&quot;</code></pre>
+Let's have a look to the transformation performed on those 4 columns:
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -468,17 +485,17 @@ NA
 <div id="identifying-and-transforming-numeric-columns" class="section level2">
 <h2><span class="header-section-number">2.3</span> Identifying and transforming numeric columns</h2>
 <p>And now the same thing with numeric</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">findAndTransformNumerics</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;findAndTransformNumerics: It took me 0s to identify 3 numerics column(s), i will set them as numerics&quot;
-# &quot;setColAsNumeric: I will set some columns as numeric&quot;
-# &quot;setColAsNumeric: I am doing the column num1.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;setColAsNumeric: I will set some columns as numeric&quot;
-# &quot;setColAsNumeric: I am doing the column num2.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;setColAsNumeric: I am doing the column num3.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;findAndTransformNumerics: It took me 0.04s to transform 3 column(s) to a numeric format.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">find_and_transform_numerics</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;find_and_transform_numerics: It took me 0s to identify 3 numerics column(s), i will set them as numerics&quot;
+# &quot;set_col_as_numeric: I will set some columns as numeric&quot;
+# &quot;set_col_as_numeric: I am doing the column num1.&quot;
+# &quot;set_col_as_numeric: 0 NA have been created due to transformation to numeric.&quot;
+# &quot;set_col_as_numeric: I will set some columns as numeric&quot;
+# &quot;set_col_as_numeric: I am doing the column num2.&quot;
+# &quot;set_col_as_numeric: 0 NA have been created due to transformation to numeric.&quot;
+# &quot;set_col_as_numeric: I am doing the column num3.&quot;
+# &quot;set_col_as_numeric: 0 NA have been created due to transformation to numeric.&quot;
+# &quot;find_and_transform_numerics: It took me 0.05s to transform 3 column(s) to a numeric format.&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -659,24 +676,20 @@ num3
 </ul>
 <div id="look-for-constant-variables" class="section level2">
 <h2><span class="header-section-number">3.1</span> Look for constant variables</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constant_cols &lt;-<span class="st"> </span><span class="kw">whichAreConstant</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;whichAreConstant: constant is constant.&quot;
-# &quot;whichAreConstant: it took me 0s to identify 1 constant column(s)&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">constant_cols &lt;-<span class="st"> </span><span class="kw">which_are_constant</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;which_are_constant: constant is constant.&quot;
+# &quot;which_are_constant: it took me 0s to identify 1 constant column(s)&quot;</code></pre>
 </div>
 <div id="look-for-columns-in-double" class="section level2">
 <h2><span class="header-section-number">3.2</span> Look for columns in double</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">double_cols &lt;-<span class="st"> </span><span class="kw">whichAreInDouble</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;whichAreInDouble: num3 is exactly equal to num1. I put it in drop list.&quot;
-# &quot;whichAreInDouble: it took me 0.01s to identify 1 column(s) to drop.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">double_cols &lt;-<span class="st"> </span><span class="kw">which_are_in_double</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;which_are_in_double: it took me 0s to identify 1 column(s) to drop.&quot;</code></pre>
 </div>
 <div id="look-for-columns-that-are-bijections-of-one-another" class="section level2">
 <h2><span class="header-section-number">3.3</span> Look for columns that are bijections of one another</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bijections_cols &lt;-<span class="st"> </span><span class="kw">whichAreBijection</span>(messy_adult)</code></pre></div>
-<pre><code># &quot;whichAreBijection: date4 is a bijection of date3. I put it in drop list.&quot;
-# &quot;whichAreBijection: num3 is a bijection of num1. I put it in drop list.&quot;
-# &quot;whichAreBijection: education_num is a bijection of education. I put it in drop list.&quot;
-# &quot;whichAreBijection: it took me 0.17s to identify 3 column(s) to drop.&quot;</code></pre>
-To control this, let’s have a look to the concerned columns:
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bijections_cols &lt;-<span class="st"> </span><span class="kw">which_are_bijection</span>(messy_adult)</code></pre></div>
+<pre><code># &quot;which_are_bijection: it took me 0.21s to identify 3 column(s) to drop.&quot;</code></pre>
+To control this, let's have a look to the concerned columns:
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -848,24 +861,24 @@ Masters
 <ul>
 <li><em>constant</em> was build constant, it contains only 1,</li>
 <li><em>num1</em> and <em>num3</em> are equal,</li>
-<li><em>date3</em> and <em>date4</em> are separated by 2 days: date4 doesn’t contain any new information for a ML algorithm,</li>
-<li><em>education</em> and <em>education_num</em> contains the same information one with a key index, the other one with the character corresponding. <code>whichAreBijection</code> keeps the character column.</li>
+<li><em>date3</em> and <em>date4</em> are separated by 2 days: date4 doesn't contain any new information for a ML algorithm,</li>
+<li><em>education</em> and <em>education_num</em> contains the same information one with a key index, the other one with the character corresponding. <code>which_are_bijection</code> keeps the character column.</li>
 </ul>
 </div>
 <div id="filter-them-all" class="section level2">
 <h2><span class="header-section-number">3.4</span> Filter them all</h2>
 <p>To directly filter all of them:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ncols &lt;-<span class="st"> </span><span class="kw">ncol</span>(messy_adult)
-messy_adult &lt;-<span class="st"> </span><span class="kw">fastFilterVariables</span>(messy_adult)
+messy_adult &lt;-<span class="st"> </span><span class="kw">fast_filter_variables</span>(messy_adult)
 <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;messy_adult now have &quot;</span>, <span class="kw">ncol</span>(messy_adult), <span class="st">&quot; columns; so &quot;</span>, ncols <span class="op">-</span><span class="st"> </span><span class="kw">ncol</span>(messy_adult), <span class="st">&quot; less than before.&quot;</span>))</code></pre></div>
-<pre><code># &quot;fastFilterVariables: I check for constant columns.&quot;
-# &quot;fastFilterVariables: I delete 1 constant column(s) in dataSet.&quot;
-# &quot;fastFilterVariables: I check for columns in double.&quot;
-# &quot;fastFilterVariables: I delete 1 column(s) that are in double in dataSet.&quot;
-# &quot;fastFilterVariables: I check for columns that are bijections of another column.&quot;
-# &quot;fastFilterVariables: I delete 2 column(s) that are bijections of another column in dataSet.&quot;
+<pre><code># &quot;fast_filter_variables: I check for constant columns.&quot;
+# &quot;fast_filter_variables: I delete 1 constant column(s) in data_set.&quot;
+# &quot;fast_filter_variables: I check for columns in double.&quot;
+# &quot;fast_filter_variables: I delete 1 column(s) that are in double in data_set.&quot;
+# &quot;fast_filter_variables: I check for columns that are bijections of another column.&quot;
+# &quot;fast_filter_variables: I delete 2 column(s) that are bijections of another column in data_set.&quot;
 # &quot;messy_adult now have 20 columns; so 4 less than before.&quot;</code></pre>
-<p>4 useless rows have been deleted. Without those useless columns, your machine learning algorithm will at least be faster and maybe give better results.</p>
+<p>4 useless columns have been deleted. Without those useless columns, your machine learning algorithm will at least be faster and maybe give better results.</p>
 </div>
 </div>
 <div id="transform-functions" class="section level1">
@@ -876,36 +889,42 @@ messy_adult &lt;-<span class="st"> </span><span class="kw">fastFilterVariables</
 <h2><span class="header-section-number">4.1</span> Dates differences</h2>
 <p>Since no machine learning algorithm handle Dates, one needs to transform them or drop them. A way to transform dates is to perform differences between every date.</p>
 <p>We can also add an analysis date to compare dates with the date your data is from. For example, if you have a birth-date you may want to compute age by performing today - birth-date.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generateDateDiffs</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">analysisDate =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2018-01-01&quot;</span>), <span class="dt">units =</span> <span class="st">&quot;days&quot;</span>)</code></pre></div>
-<pre><code># &quot;generateDateDiffs: I will generate difference between dates.&quot;
-# &quot;generateDateDiffs: It took me 0s to create 6 column(s).&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generate_date_diffs</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">analysis_date =</span> <span class="kw">as.Date</span>(<span class="st">&quot;2018-01-01&quot;</span>), <span class="dt">units =</span> <span class="st">&quot;days&quot;</span>)</code></pre></div>
+<pre><code># &quot;num1&quot;          &quot;num2&quot;          &quot;mail&quot;          &quot;age&quot;          
+# &quot;type_employer&quot; &quot;fnlwgt&quot;        &quot;education&quot;     &quot;marital&quot;      
+# &quot;occupation&quot;    &quot;relationship&quot;  &quot;race&quot;          &quot;sex&quot;          
+# &quot;capital_gain&quot;  &quot;capital_loss&quot;  &quot;hr_per_week&quot;   &quot;country&quot;      
+# &quot;income&quot;       
+# [1] &quot;generate_date_diffs: c(\&quot;num1\&quot;, \&quot;num2\&quot;, \&quot;mail\&quot;, \&quot;age\&quot;, \&quot;type_employer\&quot;, \&quot;fnlwgt\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;, \&quot;country\&quot;, \&quot;income\&quot;) aren't columns of types date i do nothing for those variables.&quot;
+# [1] &quot;generate_date_diffs: I will generate difference between dates.&quot;
+# [1] &quot;generate_date_diffs: It took me 0.01s to create 6 column(s).&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
-…
+...
 </th>
 <th style="text-align:right;">
 date1.Minus.date3
 </th>
 <th style="text-align:right;">
-date1.Minus.analysisDate
+date1.Minus.analysis.date
 </th>
 <th style="text-align:right;">
 date2.Minus.date3
 </th>
 <th style="text-align:right;">
-date2.Minus.analysisDate
+date2.Minus.analysis.date
 </th>
 <th style="text-align:right;">
-date3.Minus.analysisDate
+date3.Minus.analysis.date
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 NA
@@ -925,7 +944,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 237
@@ -945,7 +964,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 NA
@@ -965,7 +984,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 -170
@@ -985,7 +1004,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 NA
@@ -1005,7 +1024,7 @@ NA
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:right;">
 105
@@ -1029,14 +1048,27 @@ NA
 <div id="transforming-dates-into-aggregates" class="section level2">
 <h2><span class="header-section-number">4.2</span> Transforming dates into aggregates</h2>
 <p>Another way to work around dates would be to aggregate them at some level. This time <code>drop</code> is set to <code>TRUE</code> in order to drop date columns.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generateFactorFromDate</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;quarter&quot;</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code># &quot;generateFactorFromDate: I will create a factor column from each date column.&quot;
-# &quot;generateFactorFromDate: It took me 0.04s to transform 3 column(s).&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generate_factor_from_date</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;quarter&quot;</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code># &quot;num1&quot;                      &quot;num2&quot;                     
+# &quot;mail&quot;                      &quot;age&quot;                      
+# &quot;type_employer&quot;             &quot;fnlwgt&quot;                   
+# &quot;education&quot;                 &quot;marital&quot;                  
+# &quot;occupation&quot;                &quot;relationship&quot;             
+# &quot;race&quot;                      &quot;sex&quot;                      
+# &quot;capital_gain&quot;              &quot;capital_loss&quot;             
+# &quot;hr_per_week&quot;               &quot;country&quot;                  
+# &quot;income&quot;                    &quot;date1.Minus.date2&quot;        
+# &quot;date1.Minus.date3&quot;         &quot;date1.Minus.analysis.date&quot;
+# &quot;date2.Minus.date3&quot;         &quot;date2.Minus.analysis.date&quot;
+# &quot;date3.Minus.analysis.date&quot;
+# [1] &quot;generate_factor_from_date: c(\&quot;num1\&quot;, \&quot;num2\&quot;, \&quot;mail\&quot;, \&quot;age\&quot;, \&quot;type_employer\&quot;, \&quot;fnlwgt\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;, \&quot;country\&quot;, \&quot;income\&quot;, \&quot;date1.Minus.date2\&quot;, \&quot;date1.Minus.date3\&quot;, \&quot;date1.Minus.analysis.date\&quot;, \&quot;date2.Minus.date3\&quot;, \&quot;date2.Minus.analysis.date\&quot;, \&quot;date3.Minus.analysis.date\&quot;) aren't columns of types date i do nothing for those variables.&quot;
+# [1] &quot;generate_factor_from_date: I will create a factor column from each date column.&quot;
+# [1] &quot;generate_factor_from_date: It took me 0.03s to transform 3 column(s).&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
-…
+...
 </th>
 <th style="text-align:left;">
 date1.quarter
@@ -1052,7 +1084,7 @@ date3.quarter
 <tbody>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 QNA
@@ -1066,7 +1098,7 @@ Q1
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 Q3
@@ -1080,7 +1112,7 @@ Q1
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 QNA
@@ -1094,7 +1126,7 @@ Q3
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 Q1
@@ -1108,7 +1140,7 @@ Q2
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 QNA
@@ -1122,7 +1154,7 @@ Q1
 </tr>
 <tr>
 <td style="text-align:left;">
-…
+...
 </td>
 <td style="text-align:left;">
 Q3
@@ -1139,9 +1171,23 @@ Q2
 </div>
 <div id="generate-features-from-character-columns" class="section level2">
 <h2><span class="header-section-number">4.3</span> Generate features from character columns</h2>
-<p>Character columns are not handled by any machine learning algorithm, one should transform them. Function <code>generateFromCharacter</code> build some new feature from them, and then drop them.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generateFromCharacter</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code># &quot;generateFromCharacter: it took me: 0.01s to transform 1 character columns into, 3 new columns.&quot;</code></pre>
+<p>Character columns are not handled by any machine learning algorithm, one should transform them. Function <code>generate_from_character</code> build some new feature from them, and then drop them.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">generate_from_character</span>(messy_adult, <span class="dt">cols =</span> <span class="st">&quot;auto&quot;</span>, <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code># &quot;num1&quot;                      &quot;num2&quot;                     
+# &quot;age&quot;                       &quot;type_employer&quot;            
+# &quot;fnlwgt&quot;                    &quot;education&quot;                
+# &quot;marital&quot;                   &quot;occupation&quot;               
+# &quot;relationship&quot;              &quot;race&quot;                     
+# &quot;sex&quot;                       &quot;capital_gain&quot;             
+# &quot;capital_loss&quot;              &quot;hr_per_week&quot;              
+# &quot;country&quot;                   &quot;income&quot;                   
+# &quot;date1.Minus.date2&quot;         &quot;date1.Minus.date3&quot;        
+# &quot;date1.Minus.analysis.date&quot; &quot;date2.Minus.date3&quot;        
+# &quot;date2.Minus.analysis.date&quot; &quot;date3.Minus.analysis.date&quot;
+# &quot;date1.quarter&quot;             &quot;date2.quarter&quot;            
+# &quot;date3.quarter&quot;            
+# [1] &quot;generate_from_character: c(\&quot;num1\&quot;, \&quot;num2\&quot;, \&quot;age\&quot;, \&quot;type_employer\&quot;, \&quot;fnlwgt\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;, \&quot;country\&quot;, \&quot;income\&quot;, \&quot;date1.Minus.date2\&quot;, \&quot;date1.Minus.date3\&quot;, \&quot;date1.Minus.analysis.date\&quot;, \&quot;date2.Minus.date3\&quot;, \&quot;date2.Minus.analysis.date\&quot;, \&quot;date3.Minus.analysis.date\&quot;, \&quot;date1.quarter\&quot;, \&quot;date2.quarter\&quot;, \&quot;date3.quarter\&quot;) aren't columns of types character i do nothing for those variables.&quot;
+# [1] &quot;generate_from_character: it took me: 0.02s to transform 1 character columns into, 3 new columns.&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1159,7 +1205,7 @@ mail.order
 <tbody>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1170,7 +1216,7 @@ FALSE
 </tr>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1181,7 +1227,7 @@ FALSE
 </tr>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1192,7 +1238,7 @@ FALSE
 </tr>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1203,7 +1249,7 @@ FALSE
 </tr>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1214,7 +1260,7 @@ FALSE
 </tr>
 <tr>
 <td style="text-align:left;">
-FALSE
+TRUE
 </td>
 <td style="text-align:right;">
 200
@@ -1229,9 +1275,9 @@ FALSE
 <div id="aggregate-according-to-a-key" class="section level2">
 <h2><span class="header-section-number">4.4</span> Aggregate according to a key</h2>
 <p>To model something by country; one would want to to compute an aggregation of this table in order to have one line per country.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">agg_adult &lt;-<span class="st"> </span><span class="kw">aggregateByKey</span>(messy_adult, <span class="dt">key =</span> <span class="st">&quot;country&quot;</span>)</code></pre></div>
-<pre><code># &quot;aggregateByKey: I start to aggregate&quot;
-# &quot;aggregateByKey: 139 columns have been constructed. It took 0.24 seconds. &quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">agg_adult &lt;-<span class="st"> </span><span class="kw">aggregate_by_key</span>(messy_adult, <span class="dt">key =</span> <span class="st">&quot;country&quot;</span>)</code></pre></div>
+<pre><code># &quot;aggregate_by_key: I start to aggregate&quot;
+# &quot;aggregate_by_key: 139 columns have been constructed. It took 0.27 seconds. &quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1251,7 +1297,7 @@ education.Assoc-acdm
 marital.Married-AF-spouse
 </th>
 <th style="text-align:left;">
-…
+...
 </th>
 </tr>
 </thead>
@@ -1273,7 +1319,7 @@ marital.Married-AF-spouse
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1293,7 +1339,7 @@ Cambodia
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1313,7 +1359,7 @@ Canada
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1333,7 +1379,7 @@ China
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1353,7 +1399,7 @@ Columbia
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1373,7 +1419,7 @@ Cuba
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 </tbody>
@@ -1383,7 +1429,12 @@ Cuba
 <div id="rounding" class="section level2">
 <h2><span class="header-section-number">4.5</span> Rounding</h2>
 <p>One might want to round numeric variables in order to save some RAM, or for algorithmic reasons:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">fastRound</span>(messy_adult, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">fast_round</span>(messy_adult, <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code># &quot;type_employer&quot; &quot;education&quot;     &quot;marital&quot;       &quot;occupation&quot;   
+# &quot;relationship&quot;  &quot;race&quot;          &quot;sex&quot;           &quot;country&quot;      
+# &quot;income&quot;        &quot;date1.quarter&quot; &quot;date2.quarter&quot; &quot;date3.quarter&quot;
+# &quot;mail.notnull&quot; 
+# [1] &quot;fast_round: c(\&quot;type_employer\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;country\&quot;, \&quot;income\&quot;, \&quot;date1.quarter\&quot;, \&quot;date2.quarter\&quot;, \&quot;date3.quarter\&quot;, \&quot;mail.notnull\&quot;) aren't columns of types numeric or integer i do nothing for those variables.&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1406,7 +1457,7 @@ fnlwgt
 education
 </th>
 <th style="text-align:left;">
-…
+...
 </th>
 </tr>
 </thead>
@@ -1431,7 +1482,7 @@ Private
 Bachelors
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1454,7 +1505,7 @@ Private
 Bachelors
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1477,7 +1528,7 @@ Private
 Assoc-acdm
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1500,7 +1551,7 @@ Private
 7th-8th
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1523,7 +1574,7 @@ Self-emp-inc
 Some-college
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1546,7 +1597,7 @@ Private
 HS-grad
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 </tbody>
@@ -1555,74 +1606,44 @@ HS-grad
 </div>
 <div id="handling-nas-values" class="section level1">
 <h1><span class="header-section-number">5</span> Handling NAs values</h1>
-<p>Then, let’s handle NAs</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">fastHandleNa</span>(messy_adult)</code></pre></div>
+<p>Then, let's handle NAs, <code>fast_handle_na</code> allows you to choose how you fill NAs. By default, numeric cols are filled with 0, boolean cols are filled with FALSE and character cols are filled with &quot;&quot;.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">messy_adult &lt;-<span class="st"> </span><span class="kw">fast_handle_na</span>(messy_adult)</code></pre></div>
 <pre><code>#    num1  num2 age type_employer   ...       country income date1.Minus.date2
 # 1: 0.59 -0.50  60       Private   ... United-States  &lt;=50K           -173.96
 # 2: 0.00 -0.60  25       Private   ... United-States  &lt;=50K             23.04
 # 3: 0.00  0.48  26       Private   ... United-States  &lt;=50K            -73.96
 # 4: 0.02  2.83  28       Private   ...   Puerto-Rico  &lt;=50K           -234.96
-#    date1.Minus.date3 date1.Minus.analysisDate date2.Minus.date3
-# 1:                65                  -293.96            238.96
-# 2:              -117                  -334.96           -140.04
-# 3:               -33                  -138.96             40.96
-# 4:              -228                  -336.96              6.96
-#    date2.Minus.analysisDate date3.Minus.analysisDate date1.quarter
-# 1:                     -120                  -358.96            Q1
-# 2:                     -358                  -217.96            Q1
-# 3:                      -65                  -105.96            Q3
-# 4:                     -102                  -108.96            Q1
+#    date1.Minus.date3 date1.Minus.analysis.date date2.Minus.date3
+# 1:                65                   -293.96            238.96
+# 2:              -117                   -334.96           -140.04
+# 3:               -33                   -138.96             40.96
+# 4:              -228                   -336.96              6.96
+#    date2.Minus.analysis.date date3.Minus.analysis.date date1.quarter
+# 1:                      -120                   -358.96            Q1
+# 2:                      -358                   -217.96            Q1
+# 3:                       -65                   -105.96            Q3
+# 4:                      -102                   -108.96            Q1
 #    date2.quarter date3.quarter mail.notnull mail.num mail.order
-# 1:            Q3            Q1        FALSE      200          1
-# 2:            Q1            Q2        FALSE      200          1
-# 3:            Q4            Q3        FALSE      200          1
-# 4:            Q3            Q3        FALSE      200          1</code></pre>
-<p>It set default values in place of NA. If you want to put some specific values (constants, or even a function for example mean of values) you should go check <code>fastHandleNa</code> documentation.</p>
+# 1:            Q3            Q1         TRUE      200          1
+# 2:            Q1            Q2         TRUE      200          1
+# 3:            Q4            Q3         TRUE      200          1
+# 4:            Q3            Q3         TRUE      200          1</code></pre>
+<p>If you want to put some specific values (constants, or even a function for example mean of values) you should go check <code>fast_handle_na</code> documentation.</p>
 </div>
 <div id="shape-functions" class="section level1">
 <h1><span class="header-section-number">6</span> Shape functions</h1>
 <p>There are two types of machine learning algorithm in R: those which accept data.table and factor, those which only accept numeric matrix.</p>
 <p>Transforming a data set into something acceptable for a machine learning algorithm could be tricky.</p>
-<p>The <code>shapeSet</code> function do it for you, you just have to choose if you want a <em>data.table</em> or a <em>numerical_matrix</em>.</p>
+<p>The <code>shape_set</code> function do it for you, you just have to choose if you want a <em>data.table</em> or a <em>numerical_matrix</em>.</p>
 <p>First with <em>data.table</em>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_adult =<span class="st"> </span><span class="kw">shapeSet</span>(<span class="kw">copy</span>(messy_adult), <span class="dt">finalForm =</span> <span class="st">&quot;data.table&quot;</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code># &quot;setColAsFactor: num1 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: num2 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: age has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: fnlwgt has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: capital_gain has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: capital_loss has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: hr_per_week has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.date2 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.date3 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.Minus.date3 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mail.num has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mail.order has more than 10 values, i don't transform it.&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">print</span>(<span class="kw">table</span>(<span class="kw">sapply</span>(clean_adult, class)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_adult &lt;-<span class="st"> </span><span class="kw">shape_set</span>(<span class="kw">copy</span>(messy_adult), <span class="dt">final_form =</span> <span class="st">&quot;data.table&quot;</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+<span class="kw">print</span>(<span class="kw">table</span>(<span class="kw">sapply</span>(clean_adult, class)))</code></pre></div>
 <pre><code># 
 #  factor integer numeric 
 #      12       1      15</code></pre>
 <p>As one can see, there only are, numeric and factors.</p>
 <p>Now with <em>numerical_matrix</em>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_adult &lt;-<span class="st"> </span><span class="kw">shapeSet</span>(<span class="kw">copy</span>(messy_adult), <span class="dt">finalForm =</span> <span class="st">&quot;numerical_matrix&quot;</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<pre><code># &quot;setColAsFactor: num1 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: num2 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: age has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: fnlwgt has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: capital_gain has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: capital_loss has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: hr_per_week has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.date2 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.date3 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.Minus.date3 has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.Minus.analysisDate has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mail.num has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mail.order has more than 10 values, i don't transform it.&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">clean_adult &lt;-<span class="st"> </span><span class="kw">shape_set</span>(<span class="kw">copy</span>(messy_adult), <span class="dt">final_form =</span> <span class="st">&quot;numerical_matrix&quot;</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</code></pre></div>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1645,7 +1666,7 @@ type_employerFederal-gov
 type_employerLocal-gov
 </th>
 <th style="text-align:left;">
-…
+...
 </th>
 </tr>
 </thead>
@@ -1670,7 +1691,7 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1693,7 +1714,7 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1716,7 +1737,7 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1739,7 +1760,7 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1762,7 +1783,7 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -1785,172 +1806,93 @@ type_employerLocal-gov
 0
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 </tbody>
 </table>
-<p>As one can see, with <code>finalForm = &quot;numerical_matrix&quot;</code> every character and factor have been binarized.</p>
+<p>As one can see, with <code>final_form = &quot;numerical_matrix&quot;</code> every character and factor have been binarized.</p>
 </div>
 <div id="full-pipeline" class="section level1">
 <h1><span class="header-section-number">7</span> Full pipeline</h1>
 <p>Doing it all with one function is possible:</p>
 <p>To do that we will reload the ugly data set and perform aggregation.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;messy_adult&quot;</span>)
-agg_adult &lt;-<span class="st"> </span><span class="kw">prepareSet</span>(messy_adult, <span class="dt">finalForm =</span> <span class="st">&quot;data.table&quot;</span>, <span class="dt">key =</span> <span class="st">&quot;country&quot;</span>, <span class="dt">analysisDate =</span> <span class="kw">Sys.Date</span>(), <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
-<pre><code># &quot;prepareSet: step one: correcting mistakes.&quot;
-# &quot;fastFilterVariables: I check for constant columns.&quot;
-# &quot;fastFilterVariables: I delete 1 constant column(s) in dataSet.&quot;
-# &quot;fastFilterVariables: I check for columns in double.&quot;
-# &quot;fastFilterVariables: I check for columns that are bijections of another column.&quot;
-# &quot;fastFilterVariables: I delete 1 column(s) that are bijections of another column in dataSet.&quot;
-# &quot;unFactor: I will identify variable that are factor but shouldn't be.&quot;
-# &quot;unFactor: I unfactor mail.&quot;
-# &quot;unFactor: It took me 0s to unfactor 1 column(s).&quot;
-# &quot;findAndTransformNumerics: It took me 0s to identify 3 numerics column(s), i will set them as numerics&quot;
-# &quot;setColAsNumeric: I will set some columns as numeric&quot;
-# &quot;setColAsNumeric: I am doing the column num1.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;setColAsNumeric: I will set some columns as numeric&quot;
-# &quot;setColAsNumeric: I am doing the column num2.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;setColAsNumeric: I am doing the column num3.&quot;
-# &quot;setColAsNumeric: 0 NA have been created due to transformation to numeric.&quot;
-# &quot;findAndTransformNumerics: It took me 0.04s to transform 3 column(s) to a numeric format.&quot;
-# &quot;findAndTransformDates: It took me 0.33s to identify formats&quot;
-# &quot;findAndTransformDates: It took me 0.07s to transform 4 columns to a Date format.&quot;
-# &quot;prepareSet: step two: transforming dataSet.&quot;
-# &quot;generateDateDiffs: I will generate difference between dates.&quot;
-# &quot;generateDateDiffs: It took me 0.01s to create 10 column(s).&quot;
-# &quot;generateFactorFromDate: I will create a factor column from each date column.&quot;
-# &quot;generateFactorFromDate: It took me 0.05s to transform 4 column(s).&quot;
-# &quot;generateFromCharacter: it took me: 0.01s to transform 1 character columns into, 3 new columns.&quot;
-# &quot;aggregateByKey: I start to aggregate&quot;
-# &quot;aggregateByKey: 193 columns have been constructed. It took 0.27 seconds. &quot;
-# &quot;prepareSet: step three: filtering dataSet.&quot;
-# &quot;fastFilterVariables: I check for constant columns.&quot;
-# &quot;fastFilterVariables: I delete 3 constant column(s) in result.&quot;
-# &quot;fastFilterVariables: I check for columns in double.&quot;
-# &quot;fastFilterVariables: I delete 6 column(s) that are in double in result.&quot;
-# &quot;fastFilterVariables: I check for columns that are bijections of another column.&quot;
-# &quot;fastFilterVariables: I delete 46 column(s) that are bijections of another column in result.&quot;
-# &quot;prepareSet: step four: handling NA.&quot;
-# &quot;prepareSet: step five: shaping result.&quot;
-# &quot;setColAsFactor: I will set some columns to factor.&quot;
-# &quot;setColAsFactor: it took me: 0s to transform 0 column(s) to factor.&quot;
-# &quot;shapeSet: Transforming numerical variables into factors when length(unique(col)) &lt;= 10.&quot;
-# &quot;setColAsFactor: nbr_lines has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.age has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: type_employer.? has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: type_employer.Local-gov has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: type_employer.Private has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: type_employer.Self-emp-not-inc has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.11th has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.5th-6th has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.7th-8th has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.Bachelors has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.HS-grad has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.Masters has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: education.Some-college has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: marital.Divorced has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: marital.Married-civ-spouse has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: marital.Married-spouse-absent has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: marital.Never-married has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: marital.Separated has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Adm-clerical has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Craft-repair has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Exec-managerial has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Handlers-cleaners has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Machine-op-inspct has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Other-service has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Prof-specialty has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Sales has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: occupation.Transport-moving has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Husband has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Not-in-family has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Other-relative has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Own-child has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Unmarried has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: relationship.Wife has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: race.Asian-Pac-Islander has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: race.Black has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: race.Other has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: race.White has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: sex.Female has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: sex.Male has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mean.capital_gain has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.capital_gain has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: mean.capital_loss has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.capital_loss has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: sd.capital_loss has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: min.hr_per_week has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.hr_per_week has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: income.&lt;=50K has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: income.&gt;50K has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.NA has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Apr has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Aug has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Dec has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Feb has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Jan has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Jul has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Jun has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Mar has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 May has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Nov has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Oct has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date1.yearmonth.2017 Sep has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.NA has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Apr has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Aug has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Dec has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Feb has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Jan has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Jul has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Jun has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Mar has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 May has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Nov has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Oct has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date2.yearmonth.2017 Sep has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Apr has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Aug has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Dec has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Feb has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Jan has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Jul has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Jun has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Mar has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 May has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Nov has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Oct has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date3.yearmonth.2017 Sep has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Apr has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Aug has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Dec has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Feb has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Jan has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Jul has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Jun has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Mar has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 May has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Nov has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Oct has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: date4.yearmonth.2017 Sep has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.mail.num has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: min.mail.order has more than 10 values, i don't transform it.&quot;
-# &quot;setColAsFactor: max.mail.order has more than 10 values, i don't transform it.&quot;
-# &quot;shapeSet: Previous distribution of column types:&quot;
+agg_adult &lt;-<span class="st"> </span><span class="kw">prepare_set</span>(messy_adult, <span class="dt">final_form =</span> <span class="st">&quot;data.table&quot;</span>, <span class="dt">key =</span> <span class="st">&quot;country&quot;</span>, <span class="dt">analysis_date =</span> <span class="kw">Sys.Date</span>(), <span class="dt">digits =</span> <span class="dv">2</span>)</code></pre></div>
+<pre><code># &quot;prepare_set: step one: correcting mistakes.&quot;
+# &quot;fast_filter_variables: I check for constant columns.&quot;
+# &quot;fast_filter_variables: I delete 1 constant column(s) in data_set.&quot;
+# &quot;fast_filter_variables: I check for columns in double.&quot;
+# &quot;fast_filter_variables: I check for columns that are bijections of another column.&quot;
+# &quot;fast_filter_variables: I delete 3 column(s) that are bijections of another column in data_set.&quot;
+#  [1] &quot;date1&quot;        &quot;date2&quot;        &quot;date4&quot;        &quot;num2&quot;         &quot;num3&quot;        
+#  [6] &quot;age&quot;          &quot;fnlwgt&quot;       &quot;capital_gain&quot; &quot;capital_loss&quot; &quot;hr_per_week&quot; 
+# &quot;un_factor: c(\&quot;date1\&quot;, \&quot;date2\&quot;, \&quot;date4\&quot;, \&quot;num2\&quot;, \&quot;num3\&quot;, \&quot;age\&quot;, \&quot;fnlwgt\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;) aren't columns of types factor i do nothing for those variables.&quot;
+# &quot;un_factor: I will identify variable that are factor but shouldn't be.&quot;
+# &quot;un_factor: I unfactor mail.&quot;
+# &quot;un_factor: It took me 0.02s to unfactor 1 column(s).&quot;
+# &quot;find_and_transform_numerics: It took me 0s to identify 2 numerics column(s), i will set them as numerics&quot;
+# &quot;set_col_as_numeric: I will set some columns as numeric&quot;
+# &quot;set_col_as_numeric: I am doing the column num2.&quot;
+# &quot;set_col_as_numeric: 0 NA have been created due to transformation to numeric.&quot;
+# &quot;set_col_as_numeric: I am doing the column num3.&quot;
+# &quot;set_col_as_numeric: 0 NA have been created due to transformation to numeric.&quot;
+# &quot;find_and_transform_numerics: It took me 0.03s to transform 2 column(s) to a numeric format.&quot;
+# &quot;find_and_transform_dates: It took me 0.45s to identify formats&quot;
+# &quot;find_and_transform_dates: It took me 0.05s to transform 3 columns to a Date format.&quot;
+# &quot;prepare_set: step two: transforming data_set.&quot;
+#  [1] &quot;num2&quot;          &quot;mail&quot;          &quot;num3&quot;          &quot;age&quot;          
+#  [5] &quot;type_employer&quot; &quot;fnlwgt&quot;        &quot;education&quot;     &quot;marital&quot;      
+#  [9] &quot;occupation&quot;    &quot;relationship&quot;  &quot;race&quot;          &quot;sex&quot;          
+# [13] &quot;capital_gain&quot;  &quot;capital_loss&quot;  &quot;hr_per_week&quot;   &quot;country&quot;      
+# [17] &quot;income&quot;       
+# &quot;prepare_set: c(\&quot;num2\&quot;, \&quot;mail\&quot;, \&quot;num3\&quot;, \&quot;age\&quot;, \&quot;type_employer\&quot;, \&quot;fnlwgt\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;, \&quot;country\&quot;, \&quot;income\&quot;) aren't columns of types date i do nothing for those variables.&quot;
+# &quot;generate_date_diffs: I will generate difference between dates.&quot;
+# &quot;generate_date_diffs: It took me 0s to create 6 column(s).&quot;
+# &quot;generate_factor_from_date: I will create a factor column from each date column.&quot;
+# &quot;generate_factor_from_date: It took me 0.34s to transform 3 column(s).&quot;
+#  [1] &quot;date1&quot;                     &quot;date2&quot;                    
+#  [3] &quot;date4&quot;                     &quot;num2&quot;                     
+#  [5] &quot;num3&quot;                      &quot;age&quot;                      
+#  [7] &quot;type_employer&quot;             &quot;fnlwgt&quot;                   
+#  [9] &quot;education&quot;                 &quot;marital&quot;                  
+# [11] &quot;occupation&quot;                &quot;relationship&quot;             
+# [13] &quot;race&quot;                      &quot;sex&quot;                      
+# [15] &quot;capital_gain&quot;              &quot;capital_loss&quot;             
+# [17] &quot;hr_per_week&quot;               &quot;country&quot;                  
+# [19] &quot;income&quot;                    &quot;date1.Minus.date2&quot;        
+# [21] &quot;date1.Minus.date4&quot;         &quot;date1.Minus.analysis.date&quot;
+# [23] &quot;date2.Minus.date4&quot;         &quot;date2.Minus.analysis.date&quot;
+# [25] &quot;date4.Minus.analysis.date&quot;
+# &quot;prepare_set: c(\&quot;date1\&quot;, \&quot;date2\&quot;, \&quot;date4\&quot;, \&quot;num2\&quot;, \&quot;num3\&quot;, \&quot;age\&quot;, \&quot;type_employer\&quot;, \&quot;fnlwgt\&quot;, \&quot;education\&quot;, \&quot;marital\&quot;, \&quot;occupation\&quot;, \&quot;relationship\&quot;, \&quot;race\&quot;, \&quot;sex\&quot;, \&quot;capital_gain\&quot;, \&quot;capital_loss\&quot;, \&quot;hr_per_week\&quot;, \&quot;country\&quot;, \&quot;income\&quot;, \&quot;date1.Minus.date2\&quot;, \&quot;date1.Minus.date4\&quot;, \&quot;date1.Minus.analysis.date\&quot;, \&quot;date2.Minus.date4\&quot;, \&quot;date2.Minus.analysis.date\&quot;, \&quot;date4.Minus.analysis.date\&quot;) aren't columns of types character i do nothing for those variables.&quot;
+# &quot;generate_from_character: it took me: 0s to transform 1 character columns into, 3 new columns.&quot;
+# &quot;aggregate_by_key: I start to aggregate&quot;
+# &quot;aggregate_by_key: 164 columns have been constructed. It took 0.25 seconds. &quot;
+# &quot;prepare_set: step three: filtering data_set.&quot;
+# &quot;fast_filter_variables: I check for constant columns.&quot;
+# &quot;fast_filter_variables: I delete 2 constant column(s) in result.&quot;
+# &quot;fast_filter_variables: I check for columns in double.&quot;
+# &quot;fast_filter_variables: I delete 1 column(s) that are in double in result.&quot;
+# &quot;fast_filter_variables: I check for columns that are bijections of another column.&quot;
+# &quot;fast_filter_variables: I delete 35 column(s) that are bijections of another column in result.&quot;
+# &quot;country&quot;
+# &quot;fast_round: country aren't columns of types numeric or integer i do nothing for those variables.&quot;
+# &quot;prepare_set: step four: handling NA.&quot;
+# &quot;prepare_set: step five: shaping result.&quot;
+# &quot;set_col_as_factor: I will set some columns to factor.&quot;
+# &quot;set_col_as_factor: it took me: 0s to transform 0 column(s) to factor.&quot;
+# &quot;shape_set: Transforming numerical variables into factors when length(unique(col)) &lt;= 10.&quot;
+# &quot;shape_set: Previous distribution of column types:&quot;
 # col_class_init
 #  factor numeric 
-#       1     137 
-# &quot;shapeSet: Current distribution of column types:&quot;
+#       1     125 
+# &quot;shape_set: Current distribution of column types:&quot;
 # col_class_end
 #  factor numeric 
-#      37     101</code></pre>
+#      37      89</code></pre>
 <p>As one can see, every previously steps have been done.</p>
-<p>Let’s have a look to the result</p>
-<pre><code># &quot;138 columns have been built; for 42 countries.&quot;</code></pre>
+<p>Let's have a look to the result</p>
+<pre><code># &quot;126 columns have been built; for 42 countries.&quot;</code></pre>
 <table class="table table-striped table-hover" style="font-size: 12px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1961,22 +1903,22 @@ country
 nbr_lines
 </th>
 <th style="text-align:left;">
-mean.num1
-</th>
-<th style="text-align:left;">
-sd.num1
-</th>
-<th style="text-align:left;">
 mean.num2
 </th>
 <th style="text-align:left;">
 sd.num2
 </th>
 <th style="text-align:left;">
+mean.num3
+</th>
+<th style="text-align:left;">
+sd.num3
+</th>
+<th style="text-align:left;">
 min.age
 </th>
 <th style="text-align:left;">
-…
+...
 </th>
 </tr>
 </thead>
@@ -2004,7 +1946,7 @@ min.age
 17
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -2015,22 +1957,22 @@ Cambodia
 16
 </td>
 <td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
-0
-</td>
-<td style="text-align:left;">
 0.08
 </td>
 <td style="text-align:left;">
 0.78
 </td>
 <td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
 25
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -2056,7 +1998,7 @@ Canada
 17
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -2082,7 +2024,7 @@ China
 22
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -2108,7 +2050,7 @@ Columbia
 21
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 <tr>
@@ -2134,7 +2076,7 @@ Cuba
 21
 </td>
 <td style="text-align:left;">
-…
+...
 </td>
 </tr>
 </tbody>
@@ -2145,18 +2087,18 @@ Cuba
 <p>Finally, to generate a description file from this data set, function <code>description</code> is available.</p>
 <p>It will describe, the set and its variables. Here we put <code>level=0</code> to have some global descriptions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">description</span>(agg_adult, <span class="dt">level =</span> <span class="dv">0</span>)</code></pre></div>
-<pre><code># &quot;dataSet is a data.table-data.frame&quot;
-# [1] &quot;dataSet contains 42 rows and 138 cols.&quot;
+<pre><code># &quot;data_set is a data.table-data.frame&quot;
+# [1] &quot;data_set contains 42 rows and 126 cols.&quot;
 # [1] &quot;Columns are of the following classes:&quot;
 # 
 #  factor numeric 
-#      37     101</code></pre>
+#      37      89</code></pre>
 </div>
 <div id="conclusion" class="section level1">
 <h1><span class="header-section-number">9</span> Conclusion</h1>
 <p>We presented some of the functions of <em>dataPreparation</em> package. There are a few more available, plus they have some parameters to make their use easier. So if you liked it, please go check the package documentation (by installing it or on <a href="https://CRAN.R-project.org/package=dataPreparation/dataPreparation.pdf">CRAN</a>)</p>
 <p>We hope that this package is helpful, that it helped you prepare your data in a faster way.</p>
-<p>If you would like to give us some feedback, report some issues, add some features to this package, please tell us on <a href="https://github.com/ELToulemonde/dataPreparation/issues">GitHub</a>. Also if you want to contribute, please don’t hesitate to contact us.</p>
+<p>If you would like to give us some feedback, report some issues, add some features to this package, please tell us on <a href="https://github.com/ELToulemonde/dataPreparation/issues">GitHub</a>. Also if you want to contribute, please don't hesitate to contact us.</p>
 </div>
 
 
