@@ -1,8 +1,8 @@
-2bd964a4cf9a6465b6aa62f0a06d060f *DESCRIPTION
-31f43bdb1ab7b19dae6e891241ca0568 *LICENSE
+374088b06f4448c3535089c248805e0e *DESCRIPTION
+3c34afdc3adf82d2448f12715a255122 *LICENSE
 fd6b7e1e5a24412d0b6cdc640098f24e *NAMESPACE
-06db0e0e81615173c7bbe95619bec15a *NEWS
-06db0e0e81615173c7bbe95619bec15a *NEWS.md
+6303282ec7da50db026649e8d97cf185 *NEWS
+6303282ec7da50db026649e8d97cf185 *NEWS.md
 0335d4c899dbbfedc4e24d7751bac482 *R/aggregate.R
 50113cff74d01a561d8b5b2a6d3df306 *R/data_set.R
 bcacc206c814c51a0a2cb32f4ce4ca47 *R/dates_manipulations.R
@@ -24,15 +24,8 @@ cd63a7f29d273a42025d8dc210d9467b *R/on_load.R
 704da5b5f1c0515bd0ace60dd5947346 *R/set_col_as.R
 bbb2eb6f762c989ccf49fde69d21a55d *R/shape_set.R
 f5aad836701ecc3e6602e684ff44d780 *R/which_functions.R
-7fd2f791a77084b985ef9f3a7e016091 *build/vignette.rds
 d0f433c2136fa55d7bdc21b3a7b72724 *data/adult.rda
 8adca7c5e587c0d43bab514df7add2f0 *data/messy_adult.rda
-2b9654ec93ff5c8fe4049b256458d8b4 *inst/doc/dataPreparation.R
-8ac9ee002ee0c6e9a63451d8014b6c9a *inst/doc/dataPreparation.Rmd
-6a8b8f9ae1cb0ada1228e843b22dfcf2 *inst/doc/dataPreparation.html
-fee148e5ee97c12b8d4bfb165b46ba84 *inst/doc/train_test_prep.R
-a0965a7258a834374ce7f222d06bbe0a *inst/doc/train_test_prep.Rmd
-7ec9eb8aac28907f84144fafc40a1d83 *inst/doc/train_test_prep.html
 d006e886ea2ef46b3a8db9b38d65e2d8 *man/adult.Rd
 44fed827aa7f2266a172bb5b47571ecc *man/aggregate_by_key.Rd
 cd1b07f8e3026f51d8f6b0dce3b77d94 *man/as.POSIXct_fast.Rd
@@ -95,7 +88,5 @@ df19909d60bca6cabb68385fb5a39ffc *tests/testthat/test_prepare_set.R
 b0378ec757b4df88f186b060da207745 *tests/testthat/test_same_shape.R
 703810ab70aaa9b48ee9fad6ad4344f3 *tests/testthat/test_scale.R
 a4c0a77f385f33936f7165040b86be41 *tests/testthat/test_set_col_as.R
-dff40536c72c3d02871bae71f26dd2ca *tests/testthat/test_shape_set.R
+1624286f34b2b7a3dc178e2a39183229 *tests/testthat/test_shape_set.R
 8209604f4e0fb5f33797eee15fd535b8 *tests/testthat/test_which_functions.R
-8ac9ee002ee0c6e9a63451d8014b6c9a *vignettes/dataPreparation.Rmd
-a0965a7258a834374ce7f222d06bbe0a *vignettes/train_test_prep.Rmd
