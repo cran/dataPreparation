@@ -1,8 +1,8 @@
-d9aecb6cf29bc1083ae0cb0719caef47 *DESCRIPTION
+3f13f499ed756c2caecb977a75d656a9 *DESCRIPTION
 3c34afdc3adf82d2448f12715a255122 *LICENSE
 078582ac5e8b6ae7f56ad85c7fddecd0 *NAMESPACE
-da71fb0b92081a11fc8c2b9a67ee6da7 *NEWS
-da71fb0b92081a11fc8c2b9a67ee6da7 *NEWS.md
+2d27604c2bc8936c6fe8c5766d5e1ce4 *NEWS
+2d27604c2bc8936c6fe8c5766d5e1ce4 *NEWS.md
 05c624c2503d0b70151ca52c4d51abff *R/aggregate.R
 e7df679214cf657bc17d19f36de4aaa2 *R/data_set.R
 eda125f52f255f84e0a83d2bdcf50ab9 *R/dates_manipulations.R
@@ -11,7 +11,7 @@ e1e6ca0c35732075a62b8b79a0c33f3f *R/discretization.R
 2e90fd0f878fa3f941c4438d3f57e0e1 *R/factor_manipulation.R
 b69c42ed371e3580a661e5c6b47caa00 *R/fast_functions.r
 0312bf4361c3aeaabfadd22ff332b474 *R/fast_posixct.R
-3ee0a25f55334903b57b72cde7eb9ea5 *R/generate_from_character.R
+4a356b070b265e0feb863d0f01faada7 *R/generate_from_character.R
 0e0db7b8044e705c47e646a3ce93e1e2 *R/generate_from_date.R
 d2fbe3825de911569f8988803455bd4d *R/generate_from_factor.R
 b9a63929ab87180deaa386af0afe4eb5 *R/generic_functions.R
@@ -77,7 +77,7 @@ f3d8145d6e1ebc2b178ddda4515009d7 *tests/testthat/test_discretization.R
 46540f38648521d331ac04d50bf083c4 *tests/testthat/test_factor_manipulation.R
 60b40e628ac3fd70e37c275e963ff28f *tests/testthat/test_fast_functions.R
 2c2a40fe65c3188281bee3460eff73b4 *tests/testthat/test_fast_posixct.R
-da5c745089ac755b939c102a04140352 *tests/testthat/test_generate_from_character.R
+86d83aa964e7165bae6df7caf96ee0d1 *tests/testthat/test_generate_from_character.R
 dff53396de207674746aa4425e580ed8 *tests/testthat/test_generate_from_date.R
 767bb3365b8eda200c7476aa464f69a3 *tests/testthat/test_generate_from_factor.R
 17e60feef411f08414cd0af0313d433a *tests/testthat/test_generic_functions.R
